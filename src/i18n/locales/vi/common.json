@@ -1,0 +1,26 @@
+{
+  "menu": "Menu",
+  "cancel": "Hủy",
+  "actions": {
+    "delete": "Xóa",
+    "activate": "Kích hoạt",
+    "deactivate": "Vô hiệu hóa",
+    "refresh": "Làm mới"
+  },
+  "sidebar": {
+    "menu": "Menu",
+    "accounts": "Tài khoản"
+  },
+  "profile": {
+    "editProfile": "Chỉnh sửa hồ sơ",
+    "accountSettings": "Cài đặt tài khoản",
+    "support": "Hỗ trợ",
+    "signOut": "Đăng xuất"
+  },
+  "notifications": {
+    "notification": "Thông báo",
+    "requestsPermission": "yêu cầu quyền thay đổi",
+    "project": "Dự án",
+    "viewAll": "Xem tất cả thông báo"
+  }
+}

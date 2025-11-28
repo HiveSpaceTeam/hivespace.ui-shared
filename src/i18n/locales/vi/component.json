@@ -1,0 +1,11 @@
+{
+  "fileInput": {
+    "addPhoto": "Thêm ảnh",
+    "chooseFile": "Chọn tập tin",
+    "validation": {
+      "required": "Trường này là bắt buộc",
+      "imageOnly": "Vui lòng chọn tập tin hình ảnh",
+      "maxSize": "Kích thước tập tin phải nhỏ hơn {size}"
+    }
+  }
+}

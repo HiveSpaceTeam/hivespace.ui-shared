@@ -1,0 +1,26 @@
+{
+  "menu": "Menu",
+  "cancel": "Cancel",
+  "actions": {
+    "delete": "Delete",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "refresh": "Refresh"
+  },
+  "sidebar": {
+    "menu": "Menu",
+    "accounts": "Accounts"
+  },
+  "profile": {
+    "editProfile": "Edit profile",
+    "accountSettings": "Account settings",
+    "support": "Support",
+    "signOut": "Sign out"
+  },
+  "notifications": {
+    "notification": "Notification",
+    "requestsPermission": "requests permission to change",
+    "project": "Project",
+    "viewAll": "View All Notification"
+  }
+}
