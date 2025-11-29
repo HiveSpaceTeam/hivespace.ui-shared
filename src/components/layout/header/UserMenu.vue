@@ -75,7 +75,7 @@ const internalUser = ref<User | null>(null)
 onMounted(async () => {
   if (!props.user) {
     try {
-      internalUser.value = await userManager.getUser()
+      internalUser.value = userManager ? await userManager.getUser() : null
     } catch {
       internalUser.value = null
     }

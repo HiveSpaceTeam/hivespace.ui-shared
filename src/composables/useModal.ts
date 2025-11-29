@@ -16,7 +16,13 @@ let resolvePromise: ((value: unknown) => void) | null = null
 // The reactive state for modal visibility.
 const isOpen = ref<boolean>(false)
 
-export function useModal() {
+export function useModal(): {
+  isOpen: any
+  modalComponent: any
+  modalProps: any
+  openModal: (component: Component, props?: Record<string, unknown>) => Promise<unknown>
+  closeModal: (result?: unknown) => void
+} {
   /**
    * Opens a modal and returns a promise that resolves when the modal is closed.
    * @param component The Vue component to display.

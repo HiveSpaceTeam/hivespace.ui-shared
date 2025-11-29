@@ -11,7 +11,12 @@ export default defineConfig({
     vueJsx(),
     dts({
       insertTypesEntry: true,
-      tsconfigPath: './tsconfig.json'
+      tsconfigPath: './tsconfig.json',
+      rollupTypes: false,
+      cleanVueFileName: true,
+      exclude: ['**/*.stories.*', '**/*.test.*'],
+      copyDtsFiles: true,
+      staticImport: true
     }),
   ],
   resolve: {
@@ -36,6 +41,7 @@ export default defineConfig({
           vue: 'Vue',
           'vue-i18n': 'VueI18n'
         },
+        preserveModules: false,
         // Preserve the export structure
         exports: 'named'
       }

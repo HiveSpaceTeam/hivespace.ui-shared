@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, defineEmits } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 import Toast from './Toast.vue'
 
 // Define props for toasts data

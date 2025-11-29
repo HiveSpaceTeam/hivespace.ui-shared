@@ -12,22 +12,12 @@
       <slot name="menu">
         <!-- Default menu items -->
         <template v-for="(item, index) in menuItems">
-          <router-link
-            v-if="item.to"
-            :key="`router-${index}`"
-            :to="item.to"
-            @click="handleMenuItemClick(item.onClick)"
-            :class="itemClass"
-          >
+          <router-link v-if="item.to" :key="`router-${index}`" :to="item.to" @click="handleMenuItemClick(item.onClick)"
+            :class="itemClass">
             {{ item.label }}
           </router-link>
 
-          <button
-            v-else
-            :key="`button-${index}`"
-            @click="handleMenuItemClick(item.onClick)"
-            :class="itemClass"
-          >
+          <button v-else :key="`button-${index}`" @click="handleMenuItemClick(item.onClick)" :class="itemClass">
             {{ item.label }}
           </button>
         </template>
@@ -40,6 +30,7 @@
 import { ref, type VNode } from 'vue'
 import vClickOutside from './v-click-outside.vue'
 import MenuDotsIcon from '@/icons/MenuDotsIcon.vue'
+import type { DropdownMenuProps } from './DropdownMenu.types'
 
 defineSlots<{
   icon?: (props: { open: boolean }) => VNode[]
@@ -47,20 +38,7 @@ defineSlots<{
   default?: () => VNode[]
 }>()
 
-interface MenuItem {
-  label: string
-  to?: string
-  onClick?: () => void
-}
-
-interface Props {
-  menuItems?: MenuItem[]
-  buttonClass?: string
-  menuClass?: string
-  itemClass?: string
-}
-
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<DropdownMenuProps>(), {
   menuItems: () => [],
   buttonClass: 'text-gray-500 dark:text-gray-400',
   menuClass:
