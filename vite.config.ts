@@ -3,12 +3,14 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import dts from 'vite-plugin-dts'
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
+    tailwindcss(),  // ✅ Add Tailwind Vite plugin
     dts({
       insertTypesEntry: true,
       tsconfigPath: './tsconfig.json',
@@ -46,6 +48,8 @@ export default defineConfig({
         exports: 'named'
       }
     },
+    cssMinify: true,
+    cssCodeSplit: false,
     sourcemap: true,
     // Clear output directory before building
     emptyOutDir: true

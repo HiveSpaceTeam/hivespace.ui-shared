@@ -1,2 +1,1 @@
-export * from './ModalManager.vue'
-export * from './ModalWrapper.vue'
+export { default as ModalManager } from './ModalManager.vue';

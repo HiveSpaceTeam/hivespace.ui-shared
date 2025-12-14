@@ -4,6 +4,8 @@ import type { AppUser } from '@/types'
 import { toAppUser } from '@/types'
 import type { CultureText } from '@/types'
 import { CULTURE_TEXT } from '@/types'
+import { getCookie } from '@/utils/cookie'
+import { useI18n } from 'vue-i18n'
 
 // Auth configuration interface
 export interface AuthConfig {
@@ -16,81 +18,87 @@ export interface AuthConfig {
   responseMode?: 'query' | 'fragment'
 }
 
-// Default configuration for when no config is provided
-const defaultAuthConfig: AuthConfig = {
-  authority: '',
-  clientId: '',
-  redirectUri: '',
-  responseType: 'code',
-  scope: 'openid profile',
-  postLogoutRedirectUri: '',
-  responseMode: 'query'
-}
-
-// Singleton instance for lazy initialization
+// Global state for auth
 let userManagerInstance: UserManager | null = null
+let currentConfig: AuthConfig | null = null
+let isInitialized = false
 
 /**
- * Creates or returns the existing UserManager instance
+ * Initialize the authentication system with configuration
+ * Call this once in your main application before using useAuth
  */
-let currentConfig: AuthConfig | null = null
-
-const createUserManager = (config?: AuthConfig): UserManager | null => {
-  // Return null if no config provided or config is incomplete
-  if (!config || !config.authority || !config.clientId) {
-    return null
+export const initializeAuth = (config: AuthConfig): void => {
+  currentConfig = config
+  const oidcSettings = {
+    authority: config.authority,
+    client_id: config.clientId,
+    redirect_uri: config.redirectUri,
+    response_type: config.responseType,
+    scope: config.scope,
+    post_logout_redirect_uri: config.postLogoutRedirectUri,
+    response_mode: config.responseMode,
+    userStore: new WebStorageStateStore({ store: window.sessionStorage }),
   }
+  userManagerInstance = new UserManager(oidcSettings)
+  isInitialized = true
+}
 
-  if (!userManagerInstance || !currentConfig || JSON.stringify(currentConfig) !== JSON.stringify(config)) {
-    currentConfig = config
-    const oidcSettings = {
-      authority: config.authority,
-      client_id: config.clientId,
-      redirect_uri: config.redirectUri,
-      response_type: config.responseType,
-      scope: config.scope,
-      post_logout_redirect_uri: config.postLogoutRedirectUri,
-      response_mode: config.responseMode,
-      userStore: new WebStorageStateStore({ store: window.sessionStorage }),
-    }
-    userManagerInstance = new UserManager(oidcSettings)
-  }
-  return userManagerInstance
+/**
+ * Reset the authentication system
+ * Useful for testing or when switching configurations
+ */
+export const resetAuth = (): void => {
+  userManagerInstance = null
+  currentConfig = null
+  isInitialized = false
+}
+
+/**
+ * Check if auth has been initialized
+ */
+export const isAuthInitialized = (): boolean => {
+  return isInitialized && userManagerInstance !== null
 }
 
 /**
  * Composable for authentication management using OIDC
- * @param config Optional authentication configuration. If not provided, auth features will be disabled.
+ * Must call initializeAuth() first before using this composable
  */
-export const useAuth = (config?: AuthConfig) => {
-  // Use provided config or default
-  const authConfig = config || defaultAuthConfig
-
+export const useAuth = () => {
   // Reactive state
   const currentUser = ref<AppUser | null>(null)
   const isLoading = ref(false)
   const error = ref<string | null>(null)
 
-  // Lazy-initialized user manager (can be null if no valid config)
-  const userManager = createUserManager(authConfig)
+  // Try to use i18n if available (inside component setup)
+  // If called outside setup (e.g. main.ts), this might throw or fail, so we catch it
+  let i18nLocale: any = null
+  try {
+    const { locale } = useI18n()
+    i18nLocale = locale
+  } catch (e) {
+    // Ignore error - likely called outside of component setup
+  }
 
   // Computed properties
-  const isAuthenticated = computed(() => currentUser.value !== null)
-  const isConfigured = computed(() => userManager !== null)
+  const isAuthenticated = computed(async () => {
+    return currentUser.value !== null || await getCurrentUser() !== null
+  })
+  const isConfigured = computed(() => isAuthInitialized())
 
   /**
    * Helper: persist an updated user object into the same WebStorageStateStore
    * used by the UserManager so the library's getUser() returns the rotated tokens.
    */
   const storeUpdatedUser = async (appUser: AppUser): Promise<void> => {
-    if (!userManager || !authConfig.authority || !authConfig.clientId) {
-      console.warn('Auth not configured, cannot store updated user')
+    if (!userManagerInstance || !currentConfig) {
+      console.warn('Auth not initialized, cannot store updated user')
       return
     }
 
     try {
-      const authority = String(authConfig.authority)
-      const clientId = String(authConfig.clientId)
+      const authority = String(currentConfig.authority)
+      const clientId = String(currentConfig.clientId)
 
       // The oidc-client-ts WebStorageStateStore prepends its own prefix (usually 'oidc.')
       // to keys passed into set(). The library expects a key of the form
@@ -104,7 +112,7 @@ export const useAuth = (config?: AuthConfig) => {
 
       // Access the configured userStore (fall back to a localStorage store)
       // The UserManager exposes its settings via userManager.settings
-      const store = (userManager.settings?.userStore ??
+      const store = (userManagerInstance.settings?.userStore ??
         new WebStorageStateStore({ store: window.localStorage })) as WebStorageStateStore
 
       // WebStorageStateStore expects set(key, value) where it will prefix the key.
@@ -129,14 +137,13 @@ export const useAuth = (config?: AuthConfig) => {
    * Get the current authenticated user
    */
   const getCurrentUser = async (): Promise<AppUser | null> => {
-    if (!userManager) {
-      error.value = 'Auth not configured'
+    if (!userManagerInstance) {
+      error.value = 'Auth not initialized'
       return null
     }
-
     try {
       error.value = null
-      const user = await userManager.getUser()
+      const user = await userManagerInstance.getUser()
       const appUser = toAppUser(user)
       currentUser.value = appUser
       return appUser
@@ -152,9 +159,9 @@ export const useAuth = (config?: AuthConfig) => {
    * This prevents the browser Back button from landing on the IdP URL or error pages.
    */
   const login = async (): Promise<void> => {
-    if (!userManager) {
-      error.value = 'Auth not configured'
-      throw new Error('Auth not configured')
+    if (!userManagerInstance) {
+      error.value = 'Auth not initialized'
+      throw new Error('Auth not initialized')
     }
 
     try {
@@ -176,9 +183,18 @@ export const useAuth = (config?: AuthConfig) => {
     }
 
     try {
-      // Get current locale from i18n
-      const i18n = (await import('../i18n')).default
-      const currentCulture = (i18n.global.locale.value as CultureText) || CULTURE_TEXT.VIETNAMESE
+      // Get current locale preferably from injected i18n, else from cookie
+      let currentCulture: CultureText = CULTURE_TEXT.VIETNAMESE
+
+      if (i18nLocale && i18nLocale.value) {
+        currentCulture = i18nLocale.value as CultureText
+      } else {
+        // Fallback to cookie if i18n instance not available (e.g. called from main.ts)
+        const cookieCulture = getCookie('culture')
+        if (cookieCulture) {
+          currentCulture = cookieCulture as CultureText
+        }
+      }
 
       const extraArgs = {
         extraQueryParams: {
@@ -186,7 +202,7 @@ export const useAuth = (config?: AuthConfig) => {
         },
       }
 
-      await userManager.signinRedirect(extraArgs)
+      await userManagerInstance.signinRedirect(extraArgs)
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Login failed'
       throw err
@@ -199,16 +215,16 @@ export const useAuth = (config?: AuthConfig) => {
    * Initiate the logout process
    */
   const logout = async (redirectTo?: string, useState = true): Promise<void> => {
-    if (!userManager) {
-      error.value = 'Auth not configured'
-      throw new Error('Auth not configured')
+    if (!userManagerInstance || !currentConfig) {
+      error.value = 'Auth not initialized'
+      throw new Error('Auth not initialized')
     }
 
     try {
       isLoading.value = true
       error.value = null
 
-      const defaultPostLogout = authConfig.postLogoutRedirectUri
+      const defaultPostLogout = currentConfig.postLogoutRedirectUri
 
       // Best-effort: push an internal transition entry so Back doesn't go to the IdP URL.
       try {
@@ -235,7 +251,7 @@ export const useAuth = (config?: AuthConfig) => {
         }
       }
 
-      await userManager.signoutRedirect(args)
+      await userManagerInstance.signoutRedirect(args)
       currentUser.value = null
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Logout failed'
@@ -256,16 +272,16 @@ export const useAuth = (config?: AuthConfig) => {
    * Handle the login callback from the identity provider
    */
   const handleLoginCallback = async (): Promise<User> => {
-    if (!userManager) {
-      error.value = 'Auth not configured'
-      throw new Error('Auth not configured')
+    if (!userManagerInstance) {
+      error.value = 'Auth not initialized'
+      throw new Error('Auth not initialized')
     }
 
     try {
       isLoading.value = true
       error.value = null
 
-      const user = await userManager.signinRedirectCallback()
+      const user = await userManagerInstance.signinRedirectCallback()
       await getCurrentUser() // Update reactive state
       return user
     } catch (err) {
@@ -275,9 +291,6 @@ export const useAuth = (config?: AuthConfig) => {
       isLoading.value = false
     }
   }
-
-  // Initialize current user on composable creation
-  getCurrentUser()
 
   return {
     // Reactive state
@@ -296,6 +309,6 @@ export const useAuth = (config?: AuthConfig) => {
     storeUpdatedUser,
 
     // Direct access to userManager if needed (can be null)
-    userManager,
+    userManager: userManagerInstance,
   }
 }

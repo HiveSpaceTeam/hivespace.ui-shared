@@ -1,4 +1,5 @@
 // Main entry point for the Hivespace UI Shared library
+// import './styles/main.css'
 
 // Export all components
 export * from './components'
@@ -9,14 +10,8 @@ export * from './composables'
 // Export all types
 export * from './types'
 
-// Export all icons
-export * from './icons'
-
-// Export i18n
-export { default as i18n } from './i18n'
-
-// Export theme state
-export * from './state/theme.state'
-
 // Export utilities
 export * from './utils'
+
+// Export i18n messages
+export * from './i18n'

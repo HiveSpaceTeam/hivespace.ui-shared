@@ -1,4 +1,4 @@
-export default function useFormatDate() {
+export function useFormatDate() {
   const formatDate = (value?: string | null) => {
     if (!value) return '-'
     try {

@@ -12,10 +12,10 @@
       <slot name="menu">
         <!-- Default menu items -->
         <template v-for="(item, index) in menuItems">
-          <router-link v-if="item.to" :key="`router-${index}`" :to="item.to" @click="handleMenuItemClick(item.onClick)"
+          <Link v-if="item.to" :key="`link-${index}`" :to="item.to" @click="handleLinkClick(item.to, item.onClick)"
             :class="itemClass">
             {{ item.label }}
-          </router-link>
+          </Link>
 
           <button v-else :key="`button-${index}`" @click="handleMenuItemClick(item.onClick)" :class="itemClass">
             {{ item.label }}
@@ -30,7 +30,12 @@
 import { ref, type VNode } from 'vue'
 import vClickOutside from './v-click-outside.vue'
 import MenuDotsIcon from '@/icons/MenuDotsIcon.vue'
+import Link from '@/components/common/Link.vue'
 import type { DropdownMenuProps } from './DropdownMenu.types'
+
+const emit = defineEmits<{
+  navigate: [path: string]
+}>()
 
 defineSlots<{
   icon?: (props: { open: boolean }) => VNode[]
@@ -62,6 +67,11 @@ const handleMenuItemClick = (callback?: () => void) => {
     callback() // Execute the provided callback function
   }
   closeDropdown() // Close the dropdown after the item is clicked
+}
+
+const handleLinkClick = (path: string, callback?: () => void) => {
+  emit('navigate', path)
+  handleMenuItemClick(callback)
 }
 </script>
 

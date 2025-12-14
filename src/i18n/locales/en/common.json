@@ -1,15 +1,20 @@
 {
   "menu": "Menu",
   "cancel": "Cancel",
+  "save": "Save",
   "actions": {
     "delete": "Delete",
     "activate": "Activate",
     "deactivate": "Deactivate",
     "refresh": "Refresh"
   },
+  "action": "Action",
   "sidebar": {
     "menu": "Menu",
-    "accounts": "Accounts"
+    "open": "Open sidebar",
+    "close": "Close sidebar",
+    "accounts": "Accounts",
+    "products": "Products"
   },
   "profile": {
     "editProfile": "Edit profile",

@@ -1,15 +1,20 @@
 {
   "menu": "Menu",
   "cancel": "Hủy",
+  "save": "Lưu",
   "actions": {
     "delete": "Xóa",
     "activate": "Kích hoạt",
     "deactivate": "Vô hiệu hóa",
     "refresh": "Làm mới"
   },
+  "action": "Hành động",
   "sidebar": {
     "menu": "Menu",
-    "accounts": "Tài khoản"
+    "open": "Mở thanh bên",
+    "close": "Đóng thanh bên",
+    "accounts": "Tài khoản",
+    "products": "Sản phẩm"
   },
   "profile": {
     "editProfile": "Chỉnh sửa hồ sơ",

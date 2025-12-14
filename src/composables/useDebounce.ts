@@ -4,7 +4,7 @@
  *
  * @returns Object with debounce method
  */
-export default function useDebounce() {
+export function useDebounce() {
   const timers = new Map<string, ReturnType<typeof setTimeout>>()
 
   /**

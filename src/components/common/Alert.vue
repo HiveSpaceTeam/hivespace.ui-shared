@@ -12,13 +12,10 @@
 
         <p class="text-sm text-gray-500 dark:text-gray-400">{{ message }}</p>
 
-        <router-link
-          v-if="showLink"
-          :to="linkHref"
-          class="inline-block mt-3 text-sm font-medium text-gray-500 underline dark:text-gray-400"
-        >
+        <Link v-if="showLink" :to="linkHref" @click="emit('navigate', linkHref)"
+          class="inline-block mt-3 text-sm font-medium text-gray-500 underline dark:text-gray-400">
           {{ linkText }}
-        </router-link>
+        </Link>
       </div>
     </div>
   </div>
@@ -26,6 +23,7 @@
 
 <script setup lang="ts">
 import { SuccessIcon, ErrorIcon, WarningIcon, SupportIcon } from '@/icons'
+import Link from '@/components/common/Link.vue'
 
 interface AlertProps {
   variant: 'success' | 'error' | 'warning' | 'info'
@@ -35,6 +33,10 @@ interface AlertProps {
   linkHref?: string
   linkText?: string
 }
+
+const emit = defineEmits<{
+  navigate: [path: string]
+}>()
 
 withDefaults(defineProps<AlertProps>(), {
   showLink: false,

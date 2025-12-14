@@ -1,19 +1,12 @@
 <template>
-  <Transition
-    enter-active-class="transform ease-out duration-300 transition"
-    enter-from-class="translate-x-full opacity-0"
-    enter-to-class="translate-x-0 opacity-100"
-    leave-active-class="transform ease-in duration-200 transition"
-    leave-from-class="translate-x-0 opacity-100"
-    leave-to-class="translate-x-full opacity-0"
-  >
-    <div
-      v-if="visible"
-      :class="[
-        'relative max-w-sm w-full shadow-lg rounded-xl border p-4 pointer-events-auto',
-        variantClasses[variant].container,
-      ]"
-    >
+  <Transition enter-active-class="transform ease-out duration-300 transition"
+    enter-from-class="translate-x-full opacity-0" enter-to-class="translate-x-0 opacity-100"
+    leave-active-class="transform ease-in duration-200 transition" leave-from-class="translate-x-0 opacity-100"
+    leave-to-class="translate-x-full opacity-0">
+    <div v-if="visible" :class="[
+      'relative max-w-sm w-full shadow-lg rounded-xl border p-4 pointer-events-auto',
+      variantClasses[variant].container,
+    ]">
       <div class="flex items-start gap-3">
         <div :class="['-mt-0.5 flex-shrink-0', variantClasses[variant].icon]">
           <component :is="icons[variant]" />
@@ -28,39 +21,27 @@
             {{ message }}
           </p>
 
-          <router-link
-            v-if="showLink"
-            :to="linkHref"
-            class="inline-block mt-2 text-sm font-medium text-gray-500 underline dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-          >
+          <Link v-if="showLink" :to="linkHref" @click="emit('navigate', linkHref)"
+            class="inline-block mt-2 text-sm font-medium text-gray-500 underline dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
             {{ linkText }}
-          </router-link>
+          </Link>
         </div>
 
         <!-- Close button -->
-        <button
-          @click="handleClose"
-          class="flex-shrink-0 ml-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors"
-        >
+        <button @click="handleClose"
+          class="flex-shrink-0 ml-2 text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition-colors">
           <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fill-rule="evenodd"
+            <path fill-rule="evenodd"
               d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            />
+              clip-rule="evenodd" />
           </svg>
         </button>
       </div>
 
       <!-- Progress bar for auto-dismiss -->
-      <div
-        v-if="showProgress && duration > 0"
-        class="mt-3 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1"
-      >
-        <div
-          :class="['h-1 rounded-full transition-all ease-linear', variantClasses[variant].progress]"
-          :style="{ width: `${progress}%`, transitionDuration: `${duration}ms` }"
-        ></div>
+      <div v-if="showProgress && duration > 0" class="mt-3 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1">
+        <div :class="['h-1 rounded-full transition-all ease-linear', variantClasses[variant].progress]"
+          :style="{ width: `${progress}%`, transitionDuration: `${duration}ms` }"></div>
       </div>
     </div>
   </Transition>
@@ -69,6 +50,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { SuccessIcon, ErrorIcon, WarningIcon, SupportIcon } from '@/icons'
+import Link from '@/components/common/Link.vue'
 
 interface ToastProps {
   id: string
@@ -84,6 +66,7 @@ interface ToastProps {
 
 interface ToastEmits {
   close: [id: string]
+  navigate: [path: string]
 }
 
 const props = withDefaults(defineProps<ToastProps>(), {
