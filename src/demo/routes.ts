@@ -121,7 +121,6 @@ export const demoRoutes = [
                 component: () => import('./Auth/Signup.vue'),
                 meta: { title: 'Signup' },
             },
-
         ],
     },
 ]
