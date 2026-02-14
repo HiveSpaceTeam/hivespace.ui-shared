@@ -36,7 +36,7 @@
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import Dropzone from 'dropzone'
 import 'dropzone/dist/dropzone.css'
-import UploadIcon from '@/icons/UploadIcon.vue'
+import UploadIcon from '../../icons/UploadIcon.vue'
 
 const props = defineProps({
   uploadUrl: {

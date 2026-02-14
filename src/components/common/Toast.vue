@@ -49,8 +49,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { SuccessIcon, ErrorIcon, WarningIcon, SupportIcon } from '@/icons'
-import Link from '@/components/common/Link.vue'
+import { SuccessIcon, ErrorIcon, WarningIcon, SupportIcon } from '../../icons'
+import Link from './Link.vue'
 
 interface ToastProps {
   id: string

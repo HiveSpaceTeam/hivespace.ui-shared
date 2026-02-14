@@ -65,8 +65,8 @@
 </template>
 
 <script setup>
-import NotificationBellIcon from '@/icons/NotificationBellIcon.vue';
-import CloseMenuIcon from '@/icons/CloseMenuIcon.vue';
+import NotificationBellIcon from '../../../icons/NotificationBellIcon.vue';
+import CloseMenuIcon from '../../../icons/CloseMenuIcon.vue';
 import { ref, onMounted, onUnmounted } from 'vue';
 import { RouterLink } from 'vue-router';
 

@@ -1,0 +1,33 @@
+{
+  "VALIDATION_FAILED": "Xác thực thất bại",
+  "NETWORK_ERROR": "Lỗi kết nối mạng",
+  "UNKNOWN_ERROR": "Đã xảy ra lỗi không mong muốn",
+  "UNAUTHORIZED": {
+    "title": "Phiên làm việc hết hạn",
+    "message": "Vui lòng đăng nhập lại"
+  },
+  "CONNECTION_ERROR": {
+    "title": "Lỗi Kết Nối",
+    "message": "Vui lòng kiểm tra kết nối internet và thử lại"
+  },
+  "REQUEST_ERROR": {
+    "title": "Lỗi",
+    "message": "Đã xảy ra sự cố. Vui lòng thử lại."
+  },
+  "ACCESS_DENIED": {
+    "title": "Truy Cập Bị Từ Chối",
+    "message": "Bạn không có quyền thực hiện hành động này"
+  },
+  "TOO_MANY_REQUESTS": {
+    "title": "Quá Nhiều Yêu Cầu",
+    "message": "Vui lòng đợi một chút và thử lại"
+  },
+  "SERVER_ERROR": {
+    "title": "Lỗi Máy Chủ",
+    "message": "Đã xảy ra sự cố ở phía chúng tôi. Vui lòng thử lại sau"
+  },
+  "SERVICE_UNAVAILABLE": {
+    "title": "Dịch Vụ Không Khả Dụng",
+    "message": "Dịch vụ tạm thời không khả dụng. Vui lòng thử lại sau vài phút"
+  }
+}

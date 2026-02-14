@@ -1,166 +1,162 @@
-import BreadcrumbArrowIcon from './BreadcrumbArrowIcon.vue'
-import MenuDotsIcon from './MenuDotsIcon.vue'
-import BoxCubeIcon from './BoxCubeIcon.vue'
-import GridIcon from './GridIcon.vue'
-import CalenderIcon from './CalenderIcon.vue'
-import TaskIcon from './TaskIcon.vue'
-import ChatIcon from './ChatIcon.vue'
-import MailIcon from './MailIcon.vue'
-import DocsIcon from './DocsIcon.vue'
-import PieChartIcon from './PieChartIcon.vue'
-import UserCircleIcon from './UserCircleIcon.vue'
-import ChevronDownIcon from './ChevronDownIcon.vue'
-import HorizontalDots from './HorizontalDots.vue'
-import PlugInIcon from './PlugInIcon.vue'
-import PageIcon from './PageIcon.vue'
-import SuccessIcon from './SuccessIcon.vue'
-import ErrorIcon from './ErrorIcon.vue'
-import InfoIcon from './InfoIcon.vue'
-import WarningIcon from './WarningIcon.vue'
-import PlusIcon from './PlusIcon.vue'
-import BigPlusIcon from './BigPlusIcon.vue'
-import TrashIconLg from './TrashIconLg.vue'
-import ListIcon from './ListIcon.vue'
-import TableIcon from './TableIcon.vue'
-import LogoutIcon from './LogoutIcon.vue'
-import FolderIcon from './FolderIcon.vue'
-import SettingsIcon from './SettingsIcon.vue'
-import HomeIcon from './HomeIcon.vue'
-import BoxIcon from './BoxIcon.vue'
-import ErrorHexaIcon from './ErrorHexaIcon.vue'
-import UploadIcon from './UploadIcon.vue'
-import Calendar2Line from './Calendar2Line.vue'
-import Message2Line from './Message2Line.vue'
-import PaperclipIcon from './PaperclipIcon.vue'
-import MenuIcon from './MenuIcon.vue'
-import CheckIcon from './CheckIcon.vue'
-import CheckGreenIcon from './CheckGreenIcon.vue'
-import ToggleOffIcon from './ToggleOffIcon.vue'
-import ToggleOnIcon from './ToggleOnIcon.vue'
-import TrashRedIcon from './TrashRedIcon.vue'
-import MailBox from './MailBox.vue'
-import SendIcon from './SendIcon.vue'
-import DraftIcon from './DraftIcon.vue'
-import TrashIcon from './TrashIcon.vue'
 import ArchiveIcon from './ArchiveIcon.vue'
-import StaredIcon from './StaredIcon.vue'
-import RefreshIcon from './RefreshIcon.vue'
-import SupportIcon from './SupportIcon.vue'
-import LayoutDashboardIcon from './LayoutDashboardIcon.vue'
-import UserGroupIcon from './UserGroupIcon.vue'
-import BarChartIcon from './BarChartIcon.vue'
-import EditIcon from './EditIcon.vue'
-import CloseIcon from './CloseIcon.vue'
-import ThemeTogglerIcon from './ThemeTogglerIcon.vue'
-import FilterIcon from './FilterIcon.vue'
+export { ArchiveIcon }
 import ArrowDownRedIcon from './ArrowDownRedIcon.vue'
+export { ArrowDownRedIcon }
 import ArrowUpGreenIcon from './ArrowUpGreenIcon.vue'
+export { ArrowUpGreenIcon }
 import BackArrowIcon from './BackArrowIcon.vue'
+export { BackArrowIcon }
+import BarChartIcon from './BarChartIcon.vue'
+export { BarChartIcon }
+import BigPlusIcon from './BigPlusIcon.vue'
+export { BigPlusIcon }
+import BoxCubeIcon from './BoxCubeIcon.vue'
+export { BoxCubeIcon }
+import BoxIcon from './BoxIcon.vue'
+export { BoxIcon }
+import BreadcrumbArrowIcon from './BreadcrumbArrowIcon.vue'
+export { BreadcrumbArrowIcon }
+import Calendar2Line from './Calendar2Line.vue'
+export { Calendar2Line }
+import CalenderIcon from './CalenderIcon.vue'
+export { CalenderIcon }
+import ChatIcon from './ChatIcon.vue'
+export { ChatIcon }
+import CheckGreenIcon from './CheckGreenIcon.vue'
+export { CheckGreenIcon }
+import CheckIcon from './CheckIcon.vue'
+export { CheckIcon }
 import CheckLargeIcon from './CheckLargeIcon.vue'
+export { CheckLargeIcon }
+import ChevronDownIcon from './ChevronDownIcon.vue'
+export { ChevronDownIcon }
+import CloseIcon from './CloseIcon.vue'
+export { CloseIcon }
 import CloseMenuIcon from './CloseMenuIcon.vue'
+export { CloseMenuIcon }
 import CloseSmallIcon from './CloseSmallIcon.vue'
+export { CloseSmallIcon }
 import CopyIcon from './CopyIcon.vue'
-import InputErrorIcon from './InputErrorIcon.vue'
-import InputSuccessIcon from './InputSuccessIcon.vue'
-import FacebookIcon from './FacebookIcon.vue'
-import GoogleIcon from './GoogleIcon.vue'
-import InstagramIcon from './InstagramIcon.vue'
-import LinkedInIcon from './LinkedInIcon.vue'
-import LoadingSpinnerIcon from './LoadingSpinnerIcon.vue'
-import NotificationBellIcon from './NotificationBellIcon.vue'
-import SearchIcon from './SearchIcon.vue'
-import XBrandIcon from './XBrandIcon.vue'
-import XIcon from './XIcon.vue'
+export { CopyIcon }
+import DocsIcon from './DocsIcon.vue'
+export { DocsIcon }
+import DraftIcon from './DraftIcon.vue'
+export { DraftIcon }
+import EditIcon from './EditIcon.vue'
+export { EditIcon }
+import ErrorHexaIcon from './ErrorHexaIcon.vue'
+export { ErrorHexaIcon }
+import ErrorIcon from './ErrorIcon.vue'
+export { ErrorIcon }
 import EyeIcon from './EyeIcon.vue'
+export { EyeIcon }
 import EyeOffIcon from './EyeOffIcon.vue'
-import PaymentIcon from './PaymentIcon.vue'
-import ShowPasswordIcon from './ShowPasswordIcon.vue'
+export { EyeOffIcon }
+import FacebookIcon from './FacebookIcon.vue'
+export { FacebookIcon }
+import FilterIcon from './FilterIcon.vue'
+export { FilterIcon }
+import FolderIcon from './FolderIcon.vue'
+export { FolderIcon }
+import GoogleIcon from './GoogleIcon.vue'
+export { GoogleIcon }
+import GridIcon from './GridIcon.vue'
+export { GridIcon }
 import HidePasswordIcon from './HidePasswordIcon.vue'
+export { HidePasswordIcon }
+import HomeIcon from './HomeIcon.vue'
+export { HomeIcon }
+import HorizontalDots from './HorizontalDots.vue'
+export { HorizontalDots }
+import InfoIcon from './InfoIcon.vue'
+export { InfoIcon }
+import InputErrorIcon from './InputErrorIcon.vue'
+export { InputErrorIcon }
+import InputSuccessIcon from './InputSuccessIcon.vue'
+export { InputSuccessIcon }
+import InstagramIcon from './InstagramIcon.vue'
+export { InstagramIcon }
+import LayoutDashboardIcon from './LayoutDashboardIcon.vue'
+export { LayoutDashboardIcon }
+import LinkedInIcon from './LinkedInIcon.vue'
+export { LinkedInIcon }
+import ListIcon from './ListIcon.vue'
+export { ListIcon }
+import LoadingSpinnerIcon from './LoadingSpinnerIcon.vue'
+export { LoadingSpinnerIcon }
+import LogoutIcon from './LogoutIcon.vue'
+export { LogoutIcon }
+import MailBox from './MailBox.vue'
+export { MailBox }
+import MailIcon from './MailIcon.vue'
+export { MailIcon }
+import MenuDotsIcon from './MenuDotsIcon.vue'
+export { MenuDotsIcon }
+import MenuIcon from './MenuIcon.vue'
+export { MenuIcon }
+import Message2Line from './Message2Line.vue'
+export { Message2Line }
+import NotificationBellIcon from './NotificationBellIcon.vue'
+export { NotificationBellIcon }
+import PageIcon from './PageIcon.vue'
+export { PageIcon }
+import PaperclipIcon from './PaperclipIcon.vue'
+export { PaperclipIcon }
+import PaymentIcon from './PaymentIcon.vue'
+export { PaymentIcon }
+import PieChartIcon from './PieChartIcon.vue'
+export { PieChartIcon }
+import PlugInIcon from './PlugInIcon.vue'
+export { PlugInIcon }
+import PlusIcon from './PlusIcon.vue'
+export { PlusIcon }
+import RefreshIcon from './RefreshIcon.vue'
+export { RefreshIcon }
+import SearchIcon from './SearchIcon.vue'
+export { SearchIcon }
+import SendIcon from './SendIcon.vue'
+export { SendIcon }
+import SettingsIcon from './SettingsIcon.vue'
+export { SettingsIcon }
+import ShowPasswordIcon from './ShowPasswordIcon.vue'
+export { ShowPasswordIcon }
 import SortAscIcon from './SortAscIcon.vue'
+export { SortAscIcon }
 import SortDescIcon from './SortDescIcon.vue'
+export { SortDescIcon }
 import SortIcon from './SortIcon.vue'
-
-export {
-    BarChartIcon,
-    LayoutDashboardIcon,
-    UserGroupIcon,
-    FolderIcon,
-    TrashIconLg,
-    SupportIcon,
-    HomeIcon,
-    StaredIcon,
-    RefreshIcon,
-    TrashIcon,
-    ArchiveIcon,
-    Message2Line,
-    PaperclipIcon,
-    BoxIcon,
-    GridIcon,
-    BoxCubeIcon,
-    CalenderIcon,
-    UserCircleIcon,
-    TaskIcon,
-    ChatIcon,
-    MailIcon,
-    DocsIcon,
-    PieChartIcon,
-    ChevronDownIcon,
-    HorizontalDots,
-    Calendar2Line,
-    PlugInIcon,
-    UploadIcon,
-    PageIcon,
-    ArrowDownRedIcon,
-    ArrowUpGreenIcon,
-    BackArrowIcon,
-    CheckLargeIcon,
-    CloseMenuIcon,
-    CloseSmallIcon,
-    CopyIcon,
-    InputErrorIcon,
-    InputSuccessIcon,
-    FacebookIcon,
-    GoogleIcon,
-    InstagramIcon,
-    LinkedInIcon,
-    LoadingSpinnerIcon,
-    NotificationBellIcon,
-    SearchIcon,
-    XBrandIcon,
-    XIcon,
-    EyeIcon,
-    EyeOffIcon,
-    ShowPasswordIcon,
-    HidePasswordIcon,
-    PaymentIcon,
-    TableIcon,
-    ListIcon,
-    LogoutIcon,
-    // Removed duplicates; canonical icons retained below
-    SettingsIcon,
-    ErrorIcon,
-    SuccessIcon,
-    InfoIcon,
-    WarningIcon,
-    PlusIcon,
-    BigPlusIcon,
-    ErrorHexaIcon,
-    MenuIcon,
-    CheckIcon,
-    CheckGreenIcon,
-    ToggleOffIcon,
-    ToggleOnIcon,
-    TrashRedIcon,
-    MailBox,
-    SendIcon,
-    DraftIcon,
-    EditIcon,
-    CloseIcon,
-    ThemeTogglerIcon,
-    FilterIcon,
-    BreadcrumbArrowIcon,
-    MenuDotsIcon,
-    SortAscIcon,
-    SortDescIcon,
-    SortIcon,
-}
+export { SortIcon }
+import StaredIcon from './StaredIcon.vue'
+export { StaredIcon }
+import SuccessIcon from './SuccessIcon.vue'
+export { SuccessIcon }
+import SupportIcon from './SupportIcon.vue'
+export { SupportIcon }
+import TableIcon from './TableIcon.vue'
+export { TableIcon }
+import TaskIcon from './TaskIcon.vue'
+export { TaskIcon }
+import ThemeTogglerIcon from './ThemeTogglerIcon.vue'
+export { ThemeTogglerIcon }
+import ToggleOffIcon from './ToggleOffIcon.vue'
+export { ToggleOffIcon }
+import ToggleOnIcon from './ToggleOnIcon.vue'
+export { ToggleOnIcon }
+import TrashIcon from './TrashIcon.vue'
+export { TrashIcon }
+import TrashIconLg from './TrashIconLg.vue'
+export { TrashIconLg }
+import TrashRedIcon from './TrashRedIcon.vue'
+export { TrashRedIcon }
+import UploadIcon from './UploadIcon.vue'
+export { UploadIcon }
+import UserCircleIcon from './UserCircleIcon.vue'
+export { UserCircleIcon }
+import UserGroupIcon from './UserGroupIcon.vue'
+export { UserGroupIcon }
+import WarningIcon from './WarningIcon.vue'
+export { WarningIcon }
+import XBrandIcon from './XBrandIcon.vue'
+export { XBrandIcon }
+import XIcon from './XIcon.vue'
+export { XIcon }

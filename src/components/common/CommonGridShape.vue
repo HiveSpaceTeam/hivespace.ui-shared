@@ -9,5 +9,5 @@
   </div>
 </template>
 <script setup lang="ts">
-import GridShape from '@/assets/shape/grid-01.svg';
+import GridShape from '../../assets/shape/grid-01.svg';
 </script>

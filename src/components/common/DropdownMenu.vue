@@ -29,8 +29,8 @@
 <script setup lang="ts">
 import { ref, type VNode } from 'vue'
 import vClickOutside from './v-click-outside.vue'
-import MenuDotsIcon from '@/icons/MenuDotsIcon.vue'
-import Link from '@/components/common/Link.vue'
+import MenuDotsIcon from '../../icons/MenuDotsIcon.vue'
+import Link from './Link.vue'
 import type { DropdownMenuProps } from './DropdownMenu.types'
 
 const emit = defineEmits<{

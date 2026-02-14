@@ -8,9 +8,9 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import ThemeTogglerIcon from '@/icons/ThemeTogglerIcon.vue'
-import { THEME_TEXT } from '@/types'
-import { setCookie, getCookie } from '@/utils/cookie'
+import ThemeTogglerIcon from '../../icons/ThemeTogglerIcon.vue'
+import { THEME_TEXT } from '../../types'
+import { setCookie, getCookie } from '../../utils/cookie'
 
 const props = defineProps<{
   defaultTheme?: string

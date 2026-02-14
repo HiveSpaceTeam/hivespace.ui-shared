@@ -8,7 +8,13 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      template: {
+        transformAssetUrls: {
+          includeAbsolute: false
+        }
+      }
+    }),
     vueJsx(),
     tailwindcss(),  // ✅ Add Tailwind Vite plugin
     dts({
@@ -23,7 +29,8 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@hivespace/shared': fileURLToPath(new URL('./src/internal.ts', import.meta.url))
     }
   },
   build: {
@@ -36,7 +43,13 @@ export default defineConfig({
     },
     rollupOptions: {
       // Externalize dependencies that shouldn't be bundled
-      external: ['vue', 'vue-i18n'],
+      external: (id) => {
+        // Treat absolute paths starting with /images/ as external resources
+        if (id.startsWith('/images/')) {
+          return true
+        }
+        return ['vue', 'vue-i18n', 'pinia'].includes(id)
+      },
       output: {
         // Provide global variables for externalized deps in UMD builds
         globals: {

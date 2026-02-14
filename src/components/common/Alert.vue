@@ -22,8 +22,8 @@
 </template>
 
 <script setup lang="ts">
-import { SuccessIcon, ErrorIcon, WarningIcon, SupportIcon } from '@/icons'
-import Link from '@/components/common/Link.vue'
+import { SuccessIcon, ErrorIcon, WarningIcon, SupportIcon } from '../../icons'
+import Link from './Link.vue'
 
 interface AlertProps {
   variant: 'success' | 'error' | 'warning' | 'info'

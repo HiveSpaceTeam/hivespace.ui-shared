@@ -84,7 +84,7 @@
 
 <script setup lang="ts">
 import Button from './Button.vue'
-import { CheckIcon, WarningIcon, InfoIcon, TrashIcon } from '@/icons'
+import { CheckIcon, WarningIcon, InfoIcon, TrashIcon } from '../../icons'
 
 export type ModalVariant = 'confirm' | 'alert' | 'warning' | 'danger' | 'info' | 'success'
 export type ModalSize = 'sm' | 'md' | 'lg' | 'xl'

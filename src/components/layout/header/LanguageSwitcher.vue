@@ -53,8 +53,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { stringToNumericCulture, CULTURE_TEXT, CultureValue, type CultureText } from '@/types'
-import { setCookie, getCookie } from '@/utils/cookie'
+import { stringToNumericCulture, CULTURE_TEXT, CultureValue, type CultureText } from '../../../types'
+import { setCookie, getCookie } from '../../../utils/cookie'
 
 // Define emits
 const emit = defineEmits<{

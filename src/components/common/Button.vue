@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { LoadingSpinnerIcon } from '@/icons'
+import { LoadingSpinnerIcon } from '../../icons'
 
 interface ButtonProps {
   size?: 'sm' | 'md'

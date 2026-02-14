@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import CheckIcon from '@/icons/CheckIcon.vue'
+import CheckIcon from '../../icons/CheckIcon.vue'
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
