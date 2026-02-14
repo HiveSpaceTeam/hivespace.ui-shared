@@ -121,12 +121,7 @@ export const demoRoutes = [
                 component: () => import('./Auth/Signup.vue'),
                 meta: { title: 'Signup' },
             },
-            {
-                path: 'icons',
-                name: 'Icons',
-                component: () => import('./Icons.vue'),
-                meta: { title: 'Icons Library' },
-            },
+
         ],
     },
 ]
