@@ -6,11 +6,8 @@
     <nav>
       <ol class="flex items-center gap-1.5">
         <li>
-          <router-link
-            class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400"
-            to="/demo"
-          >
-            Home
+          <router-link class="inline-flex items-center gap-1.5 text-sm text-gray-500 dark:text-gray-400" to="/">
+            {{ $t('common.home') }}
             <BreadcrumbArrowIcon />
           </router-link>
         </li>
@@ -23,9 +20,8 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
 
-import BreadcrumbArrowIcon from '@/icons/BreadcrumbArrowIcon.vue'
+import BreadcrumbArrowIcon from '../../icons/BreadcrumbArrowIcon.vue'
 
 interface BreadcrumbProps {
   pageTitle: string

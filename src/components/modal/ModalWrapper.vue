@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import { VueFinalModal } from 'vue-final-modal'
-import CloseIcon from '@/icons/CloseIcon.vue'
+import CloseIcon from '../../icons/CloseIcon.vue'
 defineProps({
   title: {
     type: String,

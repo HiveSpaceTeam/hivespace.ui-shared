@@ -1,5 +1,5 @@
 import { useI18n } from 'vue-i18n'
-import type { ErrorResponse } from '@/types'
+import type { ErrorResponse } from '../types'
 
 export interface ValidationErrors {
   common: string[] // Required field for n on-field-specific errors as array

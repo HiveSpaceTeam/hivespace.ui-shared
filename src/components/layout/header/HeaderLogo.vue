@@ -6,9 +6,9 @@
 </template>
 
 <script setup lang="ts">
-import LogoLight from '@/assets/logo/logo-light.svg'
-import LogoDark from '@/assets/logo/logo-dark.svg'
-import Link from '@/components/common/Link.vue';
+import LogoLight from '../../../assets/logo/logo-light.svg'
+import LogoDark from '../../../assets/logo/logo-dark.svg'
+import Link from '../../common/Link.vue';
 const emit = defineEmits<{
   navigate: [path: string]
 }>()

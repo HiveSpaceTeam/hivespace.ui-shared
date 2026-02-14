@@ -64,8 +64,8 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
-import ChevronDownIcon from '@/icons/ChevronDownIcon.vue'
-import CheckLargeIcon from '@/icons/CheckLargeIcon.vue' // New import
+import ChevronDownIcon from '../../icons/ChevronDownIcon.vue'
+import CheckLargeIcon from '../../icons/CheckLargeIcon.vue' // New import
 
 interface Option {
   value: string | number

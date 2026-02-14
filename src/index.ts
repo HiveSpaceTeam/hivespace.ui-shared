@@ -1,17 +1,7 @@
 // Main entry point for the Hivespace UI Shared library
-// import './styles/main.css'
 
-// Export all components
-export * from './components'
+// Export all core features from internal to avoid circular dependencies
+export * from './internal'
 
-// Export all composables
-export * from './composables'
-
-// Export all types
-export * from './types'
-
-// Export utilities
-export * from './utils'
-
-// Export i18n messages
-export * from './i18n'
+// Export demo routes
+export * from './demo/routes'

@@ -1,6 +1,6 @@
 import { useModal } from './useModal'
-import ConfirmModal from '@/components/common/ConfirmModal.vue'
-import type { ModalVariant, ModalSize, ButtonVariant } from '@/components/common/ConfirmModal.vue'
+import ConfirmModal from '../components/common/ConfirmModal.vue'
+import type { ModalVariant, ModalSize, ButtonVariant } from '../components/common/ConfirmModal.vue'
 
 export interface ConfirmModalOptions extends Record<string, unknown> {
   variant?: ModalVariant

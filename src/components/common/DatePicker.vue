@@ -23,7 +23,7 @@
 import { computed } from 'vue'
 import flatPickr from 'vue-flatpickr-component'
 import 'flatpickr/dist/flatpickr.css'
-import Calendar2Line from '@/icons/Calendar2Line.vue'
+import Calendar2Line from '../../icons/Calendar2Line.vue'
 
 type Model = string | number | Date | null
 

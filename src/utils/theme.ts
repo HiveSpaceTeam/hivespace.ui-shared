@@ -1,4 +1,4 @@
-import { THEME_TEXT } from '@/types'
+import { THEME_TEXT } from '../types'
 
 export const applyThemeToDOM = (themeText: string): void => {
   if (themeText === THEME_TEXT.DARK) {

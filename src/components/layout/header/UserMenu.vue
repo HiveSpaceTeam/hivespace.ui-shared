@@ -46,12 +46,12 @@
 </template>
 
 <script setup lang="ts">
-import { UserCircleIcon, ChevronDownIcon, LogoutIcon, SettingsIcon, SupportIcon } from '@/icons'
-import Link from '@/components/common/Link.vue'
+import { UserCircleIcon, ChevronDownIcon, LogoutIcon, SettingsIcon, SupportIcon } from '../../../icons'
+import Link from '../../common/Link.vue'
 import { ref, onMounted, onUnmounted, computed } from 'vue'
-import { useAuth } from '@/composables'
+import { useAuth } from '../../../composables'
 import type { User } from 'oidc-client-ts'
-import type { MenuItem } from '@/types/component.common'
+import type { MenuItem } from '../../../types/component.common'
 
 // Props: make this component generic so callers can provide a user and menu items
 

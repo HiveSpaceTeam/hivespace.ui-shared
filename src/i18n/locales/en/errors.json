@@ -1,0 +1,33 @@
+{
+  "VALIDATION_FAILED": "Validation failed",
+  "NETWORK_ERROR": "Network connection error",
+  "UNKNOWN_ERROR": "An unexpected error occurred",
+  "UNAUTHORIZED": {
+    "title": "Session Expired",
+    "message": "Please login again"
+  },
+  "CONNECTION_ERROR": {
+    "title": "Connection Error",
+    "message": "Please check your internet connection and try again"
+  },
+  "REQUEST_ERROR": {
+    "title": "Error",
+    "message": "Something went wrong. Please try again."
+  },
+  "ACCESS_DENIED": {
+    "title": "Access Denied",
+    "message": "You do not have permission to perform this action"
+  },
+  "TOO_MANY_REQUESTS": {
+    "title": "Too Many Requests",
+    "message": "Please wait a moment and try again"
+  },
+  "SERVER_ERROR": {
+    "title": "Server Error",
+    "message": "Something went wrong on our end. Please try again later"
+  },
+  "SERVICE_UNAVAILABLE": {
+    "title": "Service Unavailable",
+    "message": "The service is temporarily unavailable. Please try again in a few minutes"
+  }
+}

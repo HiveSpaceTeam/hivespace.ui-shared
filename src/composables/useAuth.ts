@@ -1,10 +1,10 @@
 import { ref, computed } from 'vue'
 import { User, UserManager, WebStorageStateStore } from 'oidc-client-ts'
-import type { AppUser } from '@/types'
-import { toAppUser } from '@/types'
-import type { CultureText } from '@/types'
-import { CULTURE_TEXT } from '@/types'
-import { getCookie } from '@/utils/cookie'
+import type { AppUser } from '../types'
+import { toAppUser } from '../types'
+import type { CultureText } from '../types'
+import { CULTURE_TEXT } from '../types'
+import { getCookie } from '../utils/cookie'
 import { useI18n } from 'vue-i18n'
 
 // Auth configuration interface

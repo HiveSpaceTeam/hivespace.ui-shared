@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { useModal } from '@/composables/useModal';
+import { useModal } from '../../composables/useModal';
 import ModalWrapper from './ModalWrapper.vue';
 
 const { isOpen, modalComponent, modalProps, closeModal } = useModal();
