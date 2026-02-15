@@ -35,6 +35,7 @@ jobs:
 
       - name: Verify build output
         run: |
+          ls -R dist
           test -f dist/index.js || exit 1
           test -f dist/index.d.ts || exit 1
           test -f dist/style.css || exit 1
