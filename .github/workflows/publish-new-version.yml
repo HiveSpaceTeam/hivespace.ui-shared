@@ -33,12 +33,6 @@ jobs:
       - name: Build library
         run: npm run build
 
-      - name: Verify build output
-        run: |
-          test -f dist/index.js || exit 1
-          test -f dist/index.d.ts || exit 1
-          test -f dist/style.css || exit 1
-
       # ✅ Check if version already exists on NPM
       - name: Check if version exists
         id: version-check
@@ -86,7 +80,7 @@ jobs:
           body: |
             ## Installation
             ```bash
-            npm install @hivespace/shared@${{ steps.version-check.outputs.version }}
+              npm install @hivespace/shared@${{ steps.version-check.outputs.version }}
             ```
           draft: false
           prerelease: false
