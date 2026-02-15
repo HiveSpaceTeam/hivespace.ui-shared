@@ -46,16 +46,21 @@ jobs:
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           echo "version=$PACKAGE_VERSION" >> $GITHUB_OUTPUT
 
-          # Extract tag name and remove optional 'v' prefix
-          TAG_NAME=${GITHUB_REF#refs/tags/}
-          NORMALIZED_TAG=${TAG_NAME#v}
-
-          echo "Package version: $PACKAGE_VERSION"
-          echo "Tag version: $NORMALIZED_TAG"
-
-          if [ "$PACKAGE_VERSION" != "$NORMALIZED_TAG" ]; then
-            echo "❌ Version Mismatch: package.json ($PACKAGE_VERSION) does not match git tag ($TAG_NAME)"
-            exit 1
+          # Only perform tag validation if triggered by a tag
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then
+            # Extract tag name and remove optional 'v' prefix
+            TAG_NAME=${GITHUB_REF#refs/tags/}
+            NORMALIZED_TAG=${TAG_NAME#v}
+            
+            echo "Package version: $PACKAGE_VERSION"
+            echo "Tag version: $NORMALIZED_TAG"
+            
+            if [ "$PACKAGE_VERSION" != "$NORMALIZED_TAG" ]; then
+              echo "❌ Version Mismatch: package.json ($PACKAGE_VERSION) does not match git tag ($TAG_NAME)"
+              exit 1
+            fi
+          else
+            echo "⚠️ Workflow triggered by $GITHUB_EVENT_NAME on $GITHUB_REF. Skipping tag validation."
           fi
 
           if npm view @hivespace/shared@$PACKAGE_VERSION version 2>/dev/null; then
