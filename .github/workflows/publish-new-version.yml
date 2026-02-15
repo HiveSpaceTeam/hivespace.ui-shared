@@ -5,6 +5,8 @@ on:
   push:
     tags:
       - 'v*.*.*'
+    branches:
+      - master
 
 permissions:
   contents: write
@@ -71,18 +73,3 @@ jobs:
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ github.ref_name }}
-          name: Release v${{ steps.version-check.outputs.version }}
-          body: |
-            ## Installation
-            ```bash
-              npm install @hivespace/shared@${{ steps.version-check.outputs.version }}
-            ```
-          draft: false
-          prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
