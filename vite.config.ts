@@ -51,7 +51,6 @@ export default defineConfig({
         return ['vue', 'vue-i18n', 'pinia'].includes(id)
       },
       output: {
-        // Provide global variables for externalized deps in UMD builds
         globals: {
           vue: 'Vue',
           'vue-i18n': 'VueI18n'
