@@ -2,8 +2,8 @@ name: Publish to NPM
 
 on:
   push:
-    branches:
-      - master
+    # branches:
+    #   - master
 
 permissions:
   contents: read
@@ -20,4 +20,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: npm run build
-      - run: npm publish --provenance
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
