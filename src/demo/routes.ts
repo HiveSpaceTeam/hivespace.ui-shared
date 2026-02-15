@@ -108,19 +108,7 @@ export const demoRoutes = [
                 name: 'Blank',
                 component: () => import('./Pages/BlankPage.vue'),
                 meta: { title: 'Blank' },
-            },
-            {
-                path: 'signin',
-                name: 'Signin',
-                component: () => import('./Auth/Signin.vue'),
-                meta: { title: 'Signin' },
-            },
-            {
-                path: 'signup',
-                name: 'Signup',
-                component: () => import('./Auth/Signup.vue'),
-                meta: { title: 'Signup' },
-            },
+            }
         ],
     },
 ]
