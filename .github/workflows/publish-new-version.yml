@@ -86,7 +86,7 @@ jobs:
           body: |
             ## Installation
             ```bash
-            npm install @hivespace/shared@${{ steps.version-check.outputs.version }}
+              npm install @hivespace/shared@${{ steps.version-check.outputs.version }}
             ```
           draft: false
           prerelease: false
