@@ -16,6 +16,14 @@ export interface AuthConfig {
   scope: string
   postLogoutRedirectUri: string
   responseMode?: 'query' | 'fragment'
+  /**
+   * Storage backend for the OIDC user session.
+   * - 'session' (default): sessionStorage — cleared when the tab is closed.
+   *    Tokens are NOT shared between tabs.
+   * - 'local': localStorage — persists across tabs and browser restarts.
+   *    Needed when users open links (e.g. email verification) in a new tab.
+   */
+  storageType?: 'session' | 'local'
 }
 
 // Global state for auth
@@ -29,6 +37,7 @@ let isInitialized = false
  */
 export const initializeAuth = (config: AuthConfig): void => {
   currentConfig = config
+  const storage = config.storageType === 'local' ? window.localStorage : window.sessionStorage
   const oidcSettings = {
     authority: config.authority,
     client_id: config.clientId,
@@ -37,7 +46,7 @@ export const initializeAuth = (config: AuthConfig): void => {
     scope: config.scope,
     post_logout_redirect_uri: config.postLogoutRedirectUri,
     response_mode: config.responseMode,
-    userStore: new WebStorageStateStore({ store: window.sessionStorage }),
+    userStore: new WebStorageStateStore({ store: storage }),
   }
   userManagerInstance = new UserManager(oidcSettings)
   isInitialized = true
