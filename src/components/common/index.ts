@@ -8,6 +8,7 @@ export { default as ComponentCard } from './ComponentCard.vue';
 export { default as ConfirmModal } from './ConfirmModal.vue';
 export { default as CountDown } from './CountDown.vue';
 export { default as DatePicker } from './DatePicker.vue';
+export { default as DateTimePicker } from './DateTimePicker.vue';
 export { default as DropdownMenu } from './DropdownMenu.vue';
 export { default as Dropzone } from './Dropzone.vue';
 export { default as FileInput } from './FileInput.vue';

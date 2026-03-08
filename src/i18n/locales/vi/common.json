@@ -13,9 +13,7 @@
   "sidebar": {
     "menu": "Menu",
     "open": "Mở thanh bên",
-    "close": "Đóng thanh bên",
-    "accounts": "Tài khoản",
-    "products": "Sản phẩm"
+    "close": "Đóng thanh bên"
   },
   "profile": {
     "editProfile": "Chỉnh sửa hồ sơ",

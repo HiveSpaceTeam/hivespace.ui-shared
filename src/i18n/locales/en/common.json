@@ -13,9 +13,7 @@
   "sidebar": {
     "menu": "Menu",
     "open": "Open sidebar",
-    "close": "Close sidebar",
-    "accounts": "Accounts",
-    "products": "Products"
+    "close": "Close sidebar"
   },
   "profile": {
     "editProfile": "Edit profile",

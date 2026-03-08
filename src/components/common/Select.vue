@@ -1,57 +1,31 @@
 <template>
   <div class="relative" ref="rootRef" :style="{ '--menu-width': menuWidthPx + 'px' }">
-    <label
-      v-if="props.label"
-      class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400"
-      >{{ props.label }}</label
-    >
+    <label v-if="props.label" class="mb-1.5 block text-sm font-medium text-gray-700 dark:text-gray-400">{{ props.label
+      }}</label>
 
-    <div
-      @click="toggleDropdown"
-      @keydown.enter.prevent="toggleDropdown"
-      @keydown.space.prevent="toggleDropdown"
-      role="button"
-      tabindex="0"
-      :class="[
+    <div @click="toggleDropdown" @keydown.enter.prevent="toggleDropdown" @keydown.space.prevent="toggleDropdown"
+      role="button" tabindex="0" :class="[
         'h-11 flex items-center w-full appearance-none rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800',
-        disabled ? 'cursor-not-allowed opacity-75' : 'cursor-pointer',
-      ]"
-    >
+        disabled ? 'cursor-not-allowed opacity-70 bg-gray-100/50 dark:bg-gray-800/20' : 'cursor-pointer',
+      ]">
       <span v-if="!selectedLabel" class="text-gray-400">{{ placeholder }}</span>
       <span v-else class="truncate">{{ selectedLabel }}</span>
-      <ChevronDownIcon
-        class="ml-auto text-gray-400 transition-transform"
-        :class="{ 'rotate-180': isOpen }"
-      />
+      <ChevronDownIcon class="ml-auto text-gray-400 transition-transform" :class="{ 'rotate-180': isOpen }" />
     </div>
 
-    <transition
-      enter-active-class="transition duration-100 ease-out"
-      enter-from-class="transform scale-95 opacity-0"
-      enter-to-class="transform scale-100 opacity-100"
-      leave-active-class="transition duration-75 ease-in"
-      leave-from-class="transform scale-100 opacity-100"
-      leave-to-class="transform scale-95 opacity-0"
-    >
-      <div
-        v-if="isOpen"
-        class="absolute z-40 right-0 p-2 space-y-1 bg-white border border-gray-200 top-full rounded-2xl shadow-lg dark:border-gray-800 dark:bg-gray-dark w-[var(--menu-width)] mt-2"
-      >
+    <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
+      enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-in"
+      leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
+      <div v-if="isOpen"
+        class="absolute z-40 right-0 p-2 space-y-1 bg-white border border-gray-200 top-full rounded-2xl shadow-lg dark:border-gray-800 dark:bg-gray-dark w-[var(--menu-width)] mt-2">
         <ul :class="`overflow-y-auto custom-scrollbar ${props.maxHeight}`" role="listbox">
-          <li
-            v-for="(opt, idx) in options"
-            :key="opt.value ?? idx"
-            role="option"
-            :aria-selected="isSelected(opt)"
-          >
-            <button
-              type="button"
-              @click="select(opt.value)"
-              :class="[
-                'flex w-full px-3 py-2 font-medium text-left text-gray-500 rounded-lg text-theme-xs hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300',
-                isSelected(opt) ? 'bg-gray-50 dark:bg-white/[0.03]' : '',
-              ]"
-            >
+          <li v-for="(opt, idx) in options" :key="opt.value ?? idx" role="option" :aria-selected="isSelected(opt)">
+            <button type="button" @click="select(opt.value)" :class="[
+              'flex w-full px-3 py-2 font-medium text-left rounded-lg text-theme-xs transition-colors',
+              isSelected(opt)
+                ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/10 dark:text-brand-400'
+                : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300',
+            ]">
               <span class="grow">{{ opt.label }}</span>
               <CheckLargeIcon v-if="isSelected(opt)" />
             </button>
