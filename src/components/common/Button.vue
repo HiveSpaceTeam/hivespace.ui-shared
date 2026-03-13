@@ -1,29 +1,25 @@
 <template>
-  <button
-    :class="[
-      'inline-flex items-center justify-center font-medium gap-2 rounded-lg transition-all duration-200',
-      sizeClasses[size],
-      variantClasses[variant],
-      className,
-      {
-        'cursor-not-allowed opacity-50': disabled || loading,
-        'pointer-events-none': loading,
-      },
-    ]"
-    @click="onClick"
-    :disabled="disabled || loading"
-    :type="type"
-  >
+  <button :class="[
+    'inline-flex items-center justify-center font-medium gap-2 transition-all duration-200 shrink-0',
+    iconOnly ? 'rounded-full ' + iconSizeClasses[size] : 'rounded-lg ' + sizeClasses[size],
+    variantClasses[variant],
+    className,
+    {
+      'cursor-not-allowed opacity-50': disabled || loading,
+      'pointer-events-none': loading,
+    },
+  ]" @click="onClick" :disabled="disabled || loading" :type="type">
     <!-- Loading Spinner -->
-    <LoadingSpinnerIcon v-if="loading" class="-ml-1 mr-2" />
+    <LoadingSpinnerIcon v-if="loading" :class="[iconOnly ? '' : '-ml-1 mr-2']" />
 
     <span v-if="startIcon && !loading" class="flex items-center">
       <component :is="startIcon" />
     </span>
 
-    <slot></slot>
+    <slot v-if="!iconOnly"></slot>
+    <slot v-else name="icon"></slot>
 
-    <span v-if="endIcon && !loading" class="flex items-center">
+    <span v-if="endIcon && !loading && !iconOnly" class="flex items-center">
       <component :is="endIcon" />
     </span>
   </button>
@@ -34,7 +30,7 @@ import { LoadingSpinnerIcon } from '../../icons'
 
 interface ButtonProps {
   size?: 'sm' | 'md'
-  variant?: 'primary' | 'secondary' | 'danger' | 'warning' | 'success' | 'outline'
+  variant?: 'primary' | 'secondary' | 'danger' | 'warning' | 'success' | 'outline' | 'primary-outline'
   startIcon?: object
   endIcon?: object
   onClick?: () => void
@@ -42,6 +38,7 @@ interface ButtonProps {
   disabled?: boolean
   loading?: boolean
   type?: 'button' | 'submit' | 'reset'
+  iconOnly?: boolean
 }
 
 const props = withDefaults(defineProps<ButtonProps>(), {
@@ -51,11 +48,17 @@ const props = withDefaults(defineProps<ButtonProps>(), {
   disabled: false,
   loading: false,
   type: 'button',
+  iconOnly: false,
 })
 
 const sizeClasses = {
   sm: 'px-4 py-2 text-sm',
   md: 'px-5 py-3 text-sm',
+}
+
+const iconSizeClasses = {
+  sm: 'w-9 h-9 p-0 text-sm justify-center items-center',
+  md: 'w-11 h-11 p-0 text-base justify-center items-center',
 }
 
 const variantClasses = {
@@ -71,6 +74,8 @@ const variantClasses = {
     'bg-green-600 text-white shadow-sm hover:bg-green-700 focus:outline-none disabled:bg-green-300 dark:bg-green-500 dark:hover:bg-green-600 dark:disabled:bg-green-800',
   outline:
     'bg-white text-gray-700 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-none disabled:text-gray-300 dark:bg-gray-800 dark:text-gray-300 dark:ring-gray-600 dark:hover:bg-gray-700 dark:hover:text-white dark:disabled:text-gray-500',
+  'primary-outline':
+    'bg-white text-blue-600 ring-1 ring-inset ring-blue-600 hover:bg-blue-50 focus:outline-none disabled:text-blue-300 disabled:ring-blue-300 dark:bg-gray-800 dark:text-blue-400 dark:ring-blue-500 dark:hover:bg-gray-700 dark:disabled:text-blue-500 dark:disabled:ring-blue-800',
 }
 
 const onClick = () => {

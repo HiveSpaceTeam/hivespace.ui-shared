@@ -1,32 +1,21 @@
 <template>
-  <label
-    :for="idComputed"
-    :class="[
-      'flex items-center text-sm font-medium select-none',
-      disabled
-        ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-50' // All disabled styles, including opacity
-        : 'text-gray-700 dark:text-gray-400 cursor-pointer', // All enabled styles
-    ]"
-  >
+  <label :for="idComputed" :class="[
+    'flex items-center text-sm font-medium select-none',
+    disabled
+      ? 'text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-70' // All disabled styles, including opacity
+      : 'text-gray-700 dark:text-gray-400 cursor-pointer', // All enabled styles
+  ]">
     <div class="relative">
-      <input
-        :id="idComputed"
-        type="checkbox"
-        class="sr-only"
-        :disabled="disabled"
-        :checked="modelValue"
-        @change="onChange"
-      />
-      <div
-        :class="[
-          boxBaseClass,
-          disabled
-            ? 'bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-800'
-            : modelValue
-              ? 'border-brand-500 bg-brand-500'
-              : 'bg-transparent border-gray-300 dark:border-gray-700 hover:border-brand-500 dark:hover:border-brand-500',
-        ]"
-      >
+      <input :id="idComputed" type="checkbox" class="sr-only" :disabled="disabled" :checked="modelValue"
+        @change="onChange" />
+      <div :class="[
+        boxBaseClass,
+        disabled
+          ? 'bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-800'
+          : modelValue
+            ? 'border-brand-500 bg-brand-500'
+            : 'bg-transparent border-gray-300 dark:border-gray-700 hover:border-brand-500 dark:hover:border-brand-500',
+      ]">
         <span :class="modelValue ? '' : 'opacity-0'">
           <!-- text-white is sufficient; parent opacity will handle the disabled state -->
           <CheckIcon v-if="modelValue" class="text-white" />

@@ -5,15 +5,15 @@ export const demoRoutes = [
         children: [
             {
                 path: '',
-                name: 'Ecommerce',
-                component: () => import('./Ecommerce/Ecommerce.vue'),
-                meta: { title: 'eCommerce Dashboard' },
-            },
-            {
-                path: 'components',
                 name: 'Components',
                 component: () => import('./ComponentsIndex.vue'),
                 meta: { title: 'Component Library' },
+            },
+            {
+                path: 'ecommerce-dashboard',
+                name: 'Ecommerce Dashboard',
+                component: () => import('./Ecommerce/Ecommerce.vue'),
+                meta: { title: 'Ecommerce Dashboard' },
             },
             {
                 path: 'calendar',

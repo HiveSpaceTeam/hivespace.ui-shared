@@ -23,12 +23,12 @@
 </template>
 
 <script>
-import EcommerceMetrics from './EcommerceMetrics.vue'
-import MonthlyTarget from './MonthlyTarget.vue'
-import MonthlySale from './MonthlySale.vue'
-import CustomerDemographic from './CustomerDemographic.vue'
-import StatisticsChart from './StatisticsChart.vue'
-import RecentOrders from './RecentOrders.vue'
+import EcommerceMetrics from './EcommerceMetrics.vue';
+import MonthlyTarget from './MonthlyTarget.vue';
+import MonthlySale from './MonthlySale.vue';
+import CustomerDemographic from './CustomerDemographic.vue';
+import StatisticsChart from './StatisticsChart.vue';
+import RecentOrders from './RecentOrders.vue';
 export default {
   components: {
     EcommerceMetrics,
@@ -39,6 +39,5 @@ export default {
     RecentOrders,
   },
   name: 'Ecommerce',
-}
+};
 </script>
-
