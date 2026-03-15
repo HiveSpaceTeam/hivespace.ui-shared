@@ -82,11 +82,48 @@
         </tbody>
       </table>
     </div>
+    
+    <!-- Pagination -->
+    <div class="border-t border-gray-200 dark:border-gray-700">
+      <Pagination
+        :currentPage="currentPage"
+        :totalPages="totalPages"
+        :pageSize="pageSize"
+        @pageChange="handlePageChange"
+        @pageSizeChange="handlePageSizeChange"
+      />
+    </div>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import Pagination from '../../common/Pagination.vue'
+
+defineProps({
+  currentPage: {
+    type: Number,
+    default: 1
+  },
+  totalPages: {
+    type: Number,
+    default: 1
+  },
+  pageSize: {
+    type: Number,
+    default: 10
+  }
+})
+
+const emit = defineEmits(['pageChange', 'pageSizeChange'])
+
+const handlePageChange = (page: number) => {
+  emit('pageChange', page)
+}
+
+const handlePageSizeChange = (size: number) => {
+  emit('pageSizeChange', size)
+}
 
 const users = ref([
   {
