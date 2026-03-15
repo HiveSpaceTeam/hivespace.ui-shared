@@ -70,6 +70,8 @@ After merge to `master`, GitHub Actions will automatically:
 - create and push matching tag `vX.Y.Z`
 - trigger publish workflow from the pushed tag
 
+The auto bump workflow skips its own release-bump commits by commit-message guard, avoiding recursion without using `[skip ci]`.
+
 Tag-based publish validates that:
 
 - `package.json` version equals tag version (without `v`)
