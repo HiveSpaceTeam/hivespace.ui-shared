@@ -1,3 +1,4 @@
+export { default as AppHeader } from './AppHeader.vue'
 export { default as Backdrop } from './Backdrop.vue'
 export { default as FullScreenLayout } from './FullScreenLayout.vue'
 export { default as SidebarProvider } from './SidebarProvider.vue'

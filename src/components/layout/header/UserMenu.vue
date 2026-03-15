@@ -1,8 +1,9 @@
 <template>
   <div class="relative" ref="dropdownRef">
     <button class="flex items-center text-gray-700 dark:text-gray-400" @click.prevent="toggleDropdown">
-      <span class="mr-3 overflow-hidden rounded-full w-11 h-11">
-        <img :src="avatarSrc" alt="User" />
+      <span class="mr-3 overflow-hidden rounded-full w-11 h-11 bg-gray-100 dark:bg-gray-800 flex items-center justify-center shrink-0">
+        <img v-if="avatarSrc" :src="avatarSrc" alt="User" class="w-full h-full object-cover" />
+        <UserCircleIcon v-else class="w-7 h-7 text-gray-400" />
       </span>
 
       <span class="block mr-1 font-medium text-theme-sm">
@@ -82,7 +83,7 @@ onMounted(async () => {
 
 const displayedUser = computed(() => props.user ?? internalUser.value)
 
-const avatarSrc = computed(() => props.avatarSrc ?? displayedUser.value?.profile?.picture ?? '/images/user/owner.jpg')
+const avatarSrc = computed(() => props.avatarSrc ?? displayedUser.value?.profile?.picture)
 
 const showSignOut = computed(() => props.showSignOut ?? true)
 
