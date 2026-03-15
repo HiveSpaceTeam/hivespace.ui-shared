@@ -24,7 +24,7 @@ export interface PaginatedResponse<T = unknown> {
 }
 
 // Standard pagination metadata used across the frontend
-export interface Pagination {
+export interface PaginationMetadata {
   currentPage: number
   pageSize: number
   totalItems: number
