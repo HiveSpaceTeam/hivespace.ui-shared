@@ -1,0 +1,63 @@
+name: Auto Bump And Tag
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+concurrency:
+  group: auto-bump-and-tag-master
+  cancel-in-progress: false
+
+jobs:
+  bump-and-tag:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Configure git user
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump patch version
+        id: bump
+        run: |
+          npm version patch --no-git-tag-version
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Commit version files
+        run: |
+          git add package.json package-lock.json
+          if git diff --cached --quiet; then
+            echo "No version changes to commit"
+            exit 0
+          fi
+          git commit -m "chore(release): bump version to v${{ steps.bump.outputs.version }} [skip ci]"
+
+      - name: Push version commit
+        run: git push origin HEAD:master
+
+      - name: Create and push tag
+        run: |
+          TAG="v${{ steps.bump.outputs.version }}"
+          if git ls-remote --exit-code --tags origin "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists on origin. Skipping tag push."
+            exit 0
+          fi
+          git tag -a "$TAG" -m "release $TAG"
+          git push origin "$TAG"

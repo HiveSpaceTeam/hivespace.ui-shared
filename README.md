@@ -8,39 +8,27 @@ This document explains how to publish a new version of `@hivespace/shared` using
 
 ## Important Workflow Behavior
 
-Current publish workflow triggers on:
+Publish workflow in `.github/workflows/publish-new-version.yml` triggers on:
 
 - Manual run: `workflow_dispatch`
-- Push to `master`
 - Push tag matching `v*.*.*`
+
+Version automation workflow in `.github/workflows/auto-bump-and-tag.yml` triggers on:
+
+- Push to `master` (including PR merge)
 
 What this means:
 
 - Opening a PR does not trigger publish.
-- Merging a PR to `master` does trigger publish.
-- Pushing a tag like `v1.1.3` also triggers publish.
-- Tag validation (tag must match `package.json` version) only happens on tag-triggered runs.
+- Merging a PR to `master` triggers auto bump + auto tag.
+- Auto-created tag (for example `v1.1.5`) triggers publish.
+- Publish always happens from tag event, not directly from merge.
 
 ## Prerequisites
 
 - You can push branches and tags to this repository.
 - Repository has `NPM_TOKEN` configured in GitHub secrets.
 - You are authenticated locally for git operations.
-
-## Version Bump Commands
-
-There is no `npm run patch` script in this repo.
-Use npm version directly:
-
-```bash
-npm version patch --no-git-tag-version
-# or
-npm version minor --no-git-tag-version
-# or
-npm version major --no-git-tag-version
-```
-
-This updates `package.json` (and lock file if changed) without creating a git tag locally.
 
 ## Recommended Team Release Flow
 
@@ -50,13 +38,7 @@ This updates `package.json` (and lock file if changed) without creating a git ta
 git checkout -b release/vX.Y.Z
 ```
 
-### 2) Bump package version
-
-```bash
-npm version patch --no-git-tag-version
-```
-
-### 3) Validate locally
+### 2) Validate locally
 
 ```bash
 npm ci
@@ -65,31 +47,29 @@ npm run build
 npm publish --dry-run
 ```
 
-### 4) Commit and push
+### 3) Commit and push
 
 ```bash
-git add package.json package-lock.json README.md
-git commit -m "chore(release): bump version to X.Y.Z"
+git add .
+git commit -m "feat/fix/chore: your changes"
 git push -u origin release/vX.Y.Z
 ```
 
-### 5) Open PR to `master`
+### 4) Open PR to `master`
 
 - Create PR from `release/vX.Y.Z` to `master`.
 - Get approvals and merge.
 
-### 6) Create and push release tag from master
+### 5) Automatic release after merge
 
-After PR merge, tag the merge commit on master with the same version:
+After merge to `master`, GitHub Actions will automatically:
 
-```bash
-git checkout master
-git pull origin master
-git tag vX.Y.Z
-git push origin vX.Y.Z
-```
+- bump patch version in `package.json` and `package-lock.json`
+- commit the version bump to `master`
+- create and push matching tag `vX.Y.Z`
+- trigger publish workflow from the pushed tag
 
-This tag-based run validates that:
+Tag-based publish validates that:
 
 - `package.json` version equals tag version (without `v`)
 - Version does not already exist on npm
@@ -112,3 +92,7 @@ On a tag-triggered run, ensure:
 ### Workflow fails: version already exists
 
 That version is already published on npm. Bump to a new version and run again.
+
+### Auto bump workflow cannot push to master
+
+If branch protection blocks workflow pushes, allow GitHub Actions bot to push to `master` or use a PAT-based workflow.
