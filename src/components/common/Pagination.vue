@@ -10,7 +10,7 @@
           currentPage === 1 ? 'cursor-not-allowed opacity-50' : '',
         ]"
       >
-        Trước
+        {{ t("component.pagination.previous") }}
       </button>
       <button
         @click="goToPage(currentPage + 1)"
@@ -20,7 +20,7 @@
           currentPage === totalPages ? 'cursor-not-allowed opacity-50' : '',
         ]"
       >
-        Sau
+        {{ t("component.pagination.next") }}
       </button>
     </div>
 
@@ -32,9 +32,13 @@
             v-if="totalItems !== undefined"
             class="text-sm font-medium text-gray-500 dark:text-gray-400"
           >
-            Showing {{ (currentPage - 1) * pageSize + 1 }} to
-            {{ Math.min(currentPage * pageSize, totalItems) }} of
-            {{ totalItems }} entries
+            {{
+              t("component.pagination.summary", {
+                from: (currentPage - 1) * pageSize + 1,
+                to: Math.min(currentPage * pageSize, totalItems),
+                total: totalItems,
+              })
+            }}
           </p>
         </slot>
       </div>
@@ -51,7 +55,9 @@
               currentPage === 1 ? 'cursor-not-allowed opacity-50' : '',
             ]"
           >
-            <span class="sr-only">Previous</span>
+            <span class="sr-only">{{
+              t("component.pagination.previous")
+            }}</span>
             <svg
               class="h-4 w-4"
               fill="none"
@@ -97,7 +103,7 @@
               currentPage === totalPages ? 'cursor-not-allowed opacity-50' : '',
             ]"
           >
-            <span class="sr-only">Next</span>
+            <span class="sr-only">{{ t("component.pagination.next") }}</span>
             <svg
               class="h-4 w-4"
               fill="none"
@@ -121,6 +127,9 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { useI18n } from "vue-i18n";
+
+const { t } = useI18n();
 
 const props = withDefaults(
   defineProps<{
