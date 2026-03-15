@@ -28,6 +28,7 @@ What this means:
 
 - You can push branches and tags to this repository.
 - Repository has `NPM_TOKEN` configured in GitHub secrets.
+- Repository has `RELEASE_PAT` configured in GitHub secrets for `.github/workflows/auto-bump-and-tag.yml`.
 - You are authenticated locally for git operations.
 
 ## Recommended Team Release Flow
@@ -96,3 +97,7 @@ That version is already published on npm. Bump to a new version and run again.
 ### Auto bump workflow cannot push to master
 
 If branch protection blocks workflow pushes, allow GitHub Actions bot to push to `master` or use a PAT-based workflow.
+
+### Auto bump runs but publish workflow does not trigger
+
+If auto bump pushes with `GITHUB_TOKEN`, downstream workflows are not triggered. Configure `RELEASE_PAT` and use it for checkout/push so tag push triggers `.github/workflows/publish-new-version.yml`.
