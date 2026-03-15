@@ -33,4 +33,4 @@ export { default as VClickOutside } from './v-click-outside.vue';
 export { default as YouTubeEmbed } from './YouTubeEmbed.vue';
 export { default as CommonGridShape } from './CommonGridShape.vue';
 export { default as Pagination } from './Pagination.vue';
-export { default as QuantityControl } from './QuantityControl.vue';
+export { default as QuantityControl } from './QuantityControl.vue';

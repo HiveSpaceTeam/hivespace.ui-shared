@@ -1,4 +1,9 @@
 {
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "summary": "Showing {from} to {to} of {total} entries"
+  },
   "fileInput": {
     "addPhoto": "Add Photo",
     "chooseFile": "Choose File",
