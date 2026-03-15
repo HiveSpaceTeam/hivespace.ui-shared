@@ -18,10 +18,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Validate release token
+        run: |
+          if [ -z "${{ secrets.RELEASE_PAT }}" ]; then
+            echo "::error::Missing RELEASE_PAT secret. Add a PAT with repo contents write permission."
+            exit 1
+          fi
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.RELEASE_PAT }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
