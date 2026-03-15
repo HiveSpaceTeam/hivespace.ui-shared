@@ -1,4 +1,9 @@
 {
+  "pagination": {
+    "previous": "Trước",
+    "next": "Sau",
+    "summary": "Hiển thị {from} đến {to} trong tổng số {total} mục"
+  },
   "fileInput": {
     "addPhoto": "Thêm ảnh",
     "chooseFile": "Chọn tập tin",
