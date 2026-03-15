@@ -48,7 +48,7 @@ export default defineConfig({
         if (id.startsWith('/images/')) {
           return true
         }
-        return ['vue', 'vue-i18n', 'pinia'].includes(id)
+        return ['vue', 'vue-i18n', 'pinia', 'lucide-vue-next'].includes(id)
       },
       output: {
         globals: {
