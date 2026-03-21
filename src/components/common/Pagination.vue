@@ -42,84 +42,120 @@
           </p>
         </slot>
       </div>
-      <div>
-        <nav
-          class="isolate inline-flex items-center gap-2"
-          aria-label="Pagination"
-        >
-          <button
-            @click="goToPage(currentPage - 1)"
-            :disabled="currentPage === 1"
-            :class="[
-              'inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300',
-              currentPage === 1 ? 'cursor-not-allowed opacity-50' : '',
-            ]"
+      <div class="flex items-center gap-6">
+        <div class="flex items-center gap-3">
+          <span class="text-sm font-medium text-gray-500 dark:text-gray-400">
+            {{ t("component.pagination.pageSize") }}
+          </span>
+          <div class="relative">
+            <select
+              :value="pageSize"
+              @change="updatePageSize"
+              class="h-9 w-16 appearance-none block rounded-lg border border-gray-200 bg-white py-1.5 pl-3 pr-8 text-sm text-brand-700 font-medium cursor-pointer outline-none hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
+            >
+              <option v-for="size in pageSizeOptions" :key="size" :value="size">
+                {{ size }}
+              </option>
+            </select>
+            <div
+              class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-gray-500 dark:text-gray-400"
+            >
+              <svg
+                class="h-4 w-4 stroke-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div>
+          <nav
+            class="isolate inline-flex items-center gap-2"
+            aria-label="Pagination"
           >
-            <span class="sr-only">{{
-              t("component.pagination.previous")
-            }}</span>
-            <svg
-              class="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-              />
-            </svg>
-          </button>
-
-          <template v-for="(page, index) in pageNumbers" :key="index">
-            <span
-              v-if="page === '...'"
-              class="inline-flex h-9 w-9 items-center justify-center text-sm font-medium text-gray-500 dark:text-gray-400"
-            >
-              ...
-            </span>
             <button
-              v-else
-              @click="goToPage(page as number)"
-              :aria-current="page === currentPage ? 'page' : undefined"
+              @click="goToPage(currentPage - 1)"
+              :disabled="currentPage === 1"
               :class="[
-                page === currentPage
-                  ? 'inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-sm font-medium text-white hover:bg-brand-700 focus:outline-none dark:bg-brand-500'
-                  : 'inline-flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-none dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white',
+                'inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300',
+                currentPage === 1 ? 'cursor-not-allowed opacity-50' : '',
               ]"
             >
-              {{ page }}
+              <span class="sr-only">{{
+                t("component.pagination.previous")
+              }}</span>
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+                />
+              </svg>
             </button>
-          </template>
 
-          <button
-            @click="goToPage(currentPage + 1)"
-            :disabled="currentPage === totalPages"
-            :class="[
-              'inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300',
-              currentPage === totalPages ? 'cursor-not-allowed opacity-50' : '',
-            ]"
-          >
-            <span class="sr-only">{{ t("component.pagination.next") }}</span>
-            <svg
-              class="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              aria-hidden="true"
+            <template v-for="(page, index) in pageNumbers" :key="index">
+              <span
+                v-if="page === '...'"
+                class="inline-flex h-9 w-9 items-center justify-center text-sm font-medium text-gray-500 dark:text-gray-400"
+              >
+                ...
+              </span>
+              <button
+                v-else
+                @click="goToPage(page as number)"
+                :aria-current="page === currentPage ? 'page' : undefined"
+                :class="[
+                  page === currentPage
+                    ? 'inline-flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600 text-sm font-medium text-white hover:bg-brand-700 focus:outline-none dark:bg-brand-500'
+                    : 'inline-flex h-9 w-9 items-center justify-center rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-none dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white',
+                ]"
+              >
+                {{ page }}
+              </button>
+            </template>
+
+            <button
+              @click="goToPage(currentPage + 1)"
+              :disabled="currentPage === totalPages"
+              :class="[
+                'inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 focus:outline-none dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300',
+                currentPage === totalPages
+                  ? 'cursor-not-allowed opacity-50'
+                  : '',
+              ]"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-              />
-            </svg>
-          </button>
-        </nav>
+              <span class="sr-only">{{ t("component.pagination.next") }}</span>
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="2"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                />
+              </svg>
+            </button>
+          </nav>
+        </div>
       </div>
     </div>
   </div>
@@ -137,14 +173,26 @@ const props = withDefaults(
     totalPages: number;
     pageSize: number;
     totalItems?: number;
+    pageSizeOptions?: number[];
   }>(),
-  {},
+  {
+    pageSizeOptions: () => [10, 20, 50, 100],
+  },
 );
 
 const emit = defineEmits<{
   "update:currentPage": [page: number];
+  "update:pageSize": [size: number];
   pageChange: [page: number];
+  pageSizeChange: [size: number];
 }>();
+
+const updatePageSize = (event: Event) => {
+  const target = event.target as HTMLSelectElement;
+  const size = parseInt(target.value, 10);
+  emit("update:pageSize", size);
+  emit("pageSizeChange", size);
+};
 
 // Generate page numbers with ellipsis pattern
 const pageNumbers = computed(() => {

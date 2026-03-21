@@ -2,7 +2,8 @@
   "pagination": {
     "previous": "Previous",
     "next": "Next",
-    "summary": "Showing {from} to {to} of {total} entries"
+    "summary": "Showing {from} to {to} of {total} entries",
+    "pageSize": "Number lines/pages"
   },
   "fileInput": {
     "addPhoto": "Add Photo",
