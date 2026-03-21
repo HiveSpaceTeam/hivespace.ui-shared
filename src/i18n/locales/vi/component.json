@@ -2,7 +2,8 @@
   "pagination": {
     "previous": "Trước",
     "next": "Sau",
-    "summary": "Hiển thị {from} đến {to} trong tổng số {total} mục"
+    "summary": "Hiển thị {from} đến {to} trong tổng số {total} mục",
+    "pageSize": "Số dòng/trang"
   },
   "fileInput": {
     "addPhoto": "Thêm ảnh",
