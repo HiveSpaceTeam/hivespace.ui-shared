@@ -10,7 +10,7 @@
         :disabled="disabled" @click="handleClick" />
       <!-- Outer circle (track) -->
       <div :class="[
-        'mr-3 flex h-5 w-5 items-center justify-center rounded-full border-[1.25px] transition-all duration-200 ease-in-out',
+        'mr-3 shrink-0 flex h-[20px] w-[20px] items-center justify-center rounded-full border-[1.25px] transition-all duration-200 ease-in-out',
         disabled
           ? 'border-gray-200 dark:border-gray-800 bg-gray-100 dark:bg-gray-700'
           : modelValue === value
@@ -19,7 +19,7 @@
       ]">
         <!-- Inner circle (thumb) -->
         <span :class="[
-          'h-2.5 w-2.5 rounded-full bg-white transition-all duration-200 ease-in-out',
+          'h-[7.5px] w-[7.5px] rounded-full bg-white transition-all duration-200 ease-in-out',
           modelValue === value ? 'opacity-100 scale-100' : 'opacity-0 scale-0', // Visible when checked, hidden when unchecked
         ]"></span>
       </div>
