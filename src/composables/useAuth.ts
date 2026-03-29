@@ -58,6 +58,9 @@ export const resetAuth = (): void => {
   userManagerInstance = null
   currentConfig = null
   isInitialized = false
+  currentUser.value = null
+  isLoading.value = false
+  error.value = null
 }
 
 /**
