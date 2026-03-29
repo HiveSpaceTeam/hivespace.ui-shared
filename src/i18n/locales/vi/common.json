@@ -21,6 +21,10 @@
     "support": "Hỗ trợ",
     "signOut": "Đăng xuất"
   },
+  "auth": {
+    "signIn": "Đăng nhập",
+    "signUp": "Đăng ký"
+  },
   "notifications": {
     "notification": "Thông báo",
     "requestsPermission": "yêu cầu quyền thay đổi",

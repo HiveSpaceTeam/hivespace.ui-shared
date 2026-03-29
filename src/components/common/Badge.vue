@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<BadgeProps>(), {
 })
 
 const baseStyles =
-  'inline-flex items-center px-2.5 py-0.5 justify-center gap-1 rounded-full font-medium capitalize'
+  'inline-flex items-center px-2.5 py-0.5 justify-center gap-1 rounded-full font-medium capitalize whitespace-nowrap'
 
 const sizeStyles = {
   sm: 'text-theme-xs',

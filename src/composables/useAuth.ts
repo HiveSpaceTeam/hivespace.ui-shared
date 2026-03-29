@@ -24,6 +24,11 @@ let userManagerInstance: UserManager | null = null
 let currentConfig: AuthConfig | null = null
 let isInitialized = false
 
+// Reactive state (global)
+const currentUser = ref<AppUser | null>(null)
+const isLoading = ref(false)
+const error = ref<string | null>(null)
+
 /**
  * Initialize the authentication system with configuration
  * Call this once in your main application before using useAuth
@@ -67,11 +72,6 @@ export const isAuthInitialized = (): boolean => {
  * Must call initializeAuth() first before using this composable
  */
 export const useAuth = () => {
-  // Reactive state
-  const currentUser = ref<AppUser | null>(null)
-  const isLoading = ref(false)
-  const error = ref<string | null>(null)
-
   // Try to use i18n if available (inside component setup)
   // If called outside setup (e.g. main.ts), this might throw or fail, so we catch it
   let i18nLocale: any = null
@@ -160,7 +160,7 @@ export const useAuth = () => {
    * Ensures we push a safe in-app history entry before navigating to the IdP.
    * This prevents the browser Back button from landing on the IdP URL or error pages.
    */
-  const login = async (): Promise<void> => {
+  const login = async (isRegister = false): Promise<void> => {
     if (!userManagerInstance) {
       error.value = 'Auth not initialized'
       throw new Error('Auth not initialized')
@@ -198,10 +198,14 @@ export const useAuth = () => {
         }
       }
 
-      const extraArgs = {
+      const extraArgs: any = {
         extraQueryParams: {
           culture: currentCulture,
         },
+      }
+
+      if (isRegister) {
+        extraArgs.extraQueryParams.intent = 'register'
       }
 
       await userManagerInstance.signinRedirect(extraArgs)
@@ -211,6 +215,13 @@ export const useAuth = () => {
     } finally {
       isLoading.value = false
     }
+  }
+
+  /**
+   * Initiate the registration process
+   */
+  const register = async (): Promise<void> => {
+    return login(true)
   }
 
   /**
@@ -305,6 +316,7 @@ export const useAuth = () => {
     // Methods
     login,
     logout,
+    register,
     getCurrentUser,
     getUser,
     handleLoginCallback,
