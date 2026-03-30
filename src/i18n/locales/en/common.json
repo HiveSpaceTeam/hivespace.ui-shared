@@ -21,6 +21,10 @@
     "support": "Support",
     "signOut": "Sign out"
   },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
   "notifications": {
     "notification": "Notification",
     "requestsPermission": "requests permission to change",

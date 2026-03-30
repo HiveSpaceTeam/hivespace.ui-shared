@@ -44,7 +44,9 @@ export function toAppUser(user: User | null): AppUser | null {
 
   if (!u.isSeller) {
     u.isSeller = () => {
-      return hasRole(u.profile?.role, 'Seller')
+      // CustomProfileService emits 'StoreOwner' for users with a registered store.
+      // 'Seller' covers users whose RoleName is explicitly set to Seller in the DB.
+      return hasRole(u.profile?.role, 'StoreOwner') || hasRole(u.profile?.role, 'Seller')
     }
   }
 

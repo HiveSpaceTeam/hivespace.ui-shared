@@ -13,7 +13,14 @@
   body {
     @apply relative font-normal font-outfit z-1 bg-gray-50;
     /* Using Montserrat Regular 400 with Vietnamese support and fallback fonts */
-    font-family: 'Montserrat', 'Inter', 'Roboto', 'Noto Sans Vietnamese',
-      'Segoe UI', system-ui, -apple-system, sans-serif;
+    font-family:
+      'Montserrat',
+      'Inter',
+      'Roboto',
+      'Noto Sans Vietnamese',
+      'Segoe UI',
+      system-ui,
+      -apple-system,
+      sans-serif;
   }
 }

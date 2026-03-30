@@ -53,11 +53,12 @@ import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useAuth } from '../../../composables'
 import type { User } from 'oidc-client-ts'
 import type { MenuItem } from '../../../types/component.common'
+import type { AppUser } from '../../../types'
 
 // Props: make this component generic so callers can provide a user and menu items
 
 const props = defineProps<{
-  user?: User | null
+  user?: User | AppUser | null
   menuItems?: MenuItem[]
   avatarSrc?: string
   showSignOut?: boolean
