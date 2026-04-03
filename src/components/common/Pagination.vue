@@ -47,32 +47,12 @@
           <span class="text-sm font-medium text-gray-500 dark:text-gray-400">
             {{ t("component.pagination.pageSize") }}
           </span>
-          <div class="relative">
-            <select
-              :value="pageSize"
-              @change="updatePageSize"
-              class="h-9 w-16 appearance-none block rounded-lg border border-gray-200 bg-white py-1.5 pl-3 pr-8 text-sm text-brand-700 font-medium cursor-pointer outline-none hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300"
-            >
-              <option v-for="size in pageSizeOptions" :key="size" :value="size">
-                {{ size }}
-              </option>
-            </select>
-            <div
-              class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-gray-500 dark:text-gray-400"
-            >
-              <svg
-                class="h-4 w-4 stroke-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </div>
+          <div class="w-20">
+            <Select
+              :modelValue="String(pageSize)"
+              :options="pageSizeSelectOptions"
+              @update:modelValue="updatePageSize"
+            />
           </div>
         </div>
         <div>
@@ -164,6 +144,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
+import Select from "./Select.vue";
 
 const { t } = useI18n();
 
@@ -187,9 +168,12 @@ const emit = defineEmits<{
   pageSizeChange: [size: number];
 }>();
 
-const updatePageSize = (event: Event) => {
-  const target = event.target as HTMLSelectElement;
-  const size = parseInt(target.value, 10);
+const pageSizeSelectOptions = computed(() =>
+  props.pageSizeOptions.map((s) => ({ label: String(s), value: String(s) })),
+);
+
+const updatePageSize = (value: string | number) => {
+  const size = Number(value);
   emit("update:pageSize", size);
   emit("pageSizeChange", size);
 };
