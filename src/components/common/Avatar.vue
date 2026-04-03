@@ -1,6 +1,12 @@
 <template>
-  <div :class="['relative rounded-full', sizeClasses[size]]">
-    <img :src="src" :alt="alt" class="object-cover rounded-full" />
+  <div :class="['relative rounded-full flex-shrink-0', sizeClasses[size]]">
+    <img v-if="src" :src="src" :alt="alt" class="object-cover rounded-full w-full h-full" />
+    <div
+      v-else
+      class="flex items-center justify-center rounded-full w-full h-full bg-gray-100 dark:bg-gray-800"
+    >
+      <UserCircleIcon :class="iconSizeClasses[size]" class="text-gray-400 dark:text-gray-500" />
+    </div>
     <span
       v-if="status !== 'none'"
       :class="[
@@ -13,18 +19,29 @@
 </template>
 
 <script setup lang="ts">
+import UserCircleIcon from '../../icons/UserCircleIcon.vue'
+
 interface AvatarProps {
-  src: string
+  src?: string
   alt?: string
   size?: 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge' | 'xxlarge'
   status?: 'online' | 'offline' | 'busy' | 'none'
 }
 
-withDefaults(defineProps<AvatarProps>(), {
+const props = withDefaults(defineProps<AvatarProps>(), {
   alt: 'User Avatar',
   size: 'medium',
   status: 'none',
 })
+
+const iconSizeClasses = {
+  xsmall: 'w-3.5 h-3.5',
+  small: 'w-5 h-5',
+  medium: 'w-6 h-6',
+  large: 'w-7 h-7',
+  xlarge: 'w-8 h-8',
+  xxlarge: 'w-10 h-10',
+}
 
 const sizeClasses = {
   xsmall: 'h-6 w-6 max-w-6',
