@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import ChevronDownIcon from '../../icons/ChevronDownIcon.vue'
 import CheckLargeIcon from '../../icons/CheckLargeIcon.vue'
 
