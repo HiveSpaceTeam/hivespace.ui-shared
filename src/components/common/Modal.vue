@@ -5,10 +5,15 @@
       aria-hidden="true"
       @click="$emit('close')"
     ></div>
-    <slot name="body"></slot>
+    <div class="relative z-10 flex items-center justify-center w-full px-4 py-8">
+      <slot name="body"></slot>
+    </div>
   </div>
 </template>
 
-<script setup>
-// No additional setup needed
+<script setup lang="ts">
+import { onMounted, onUnmounted } from 'vue'
+
+onMounted(() => { document.body.style.overflow = 'hidden' })
+onUnmounted(() => { document.body.style.overflow = '' })
 </script>
