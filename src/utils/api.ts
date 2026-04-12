@@ -119,11 +119,10 @@ export class ApiService {
                 const originalRequest = error.config as ExtendedAxiosRequestConfig
 
                 // Retry logic
-                if (originalRequest && !originalRequest._retry && this.shouldRetry(error)) {
+                if (originalRequest && this.shouldRetry(error)) {
                     const retryCount = (originalRequest._retryCount || 0) + 1
 
                     if (retryCount <= this.config.retries) {
-                        originalRequest._retry = true
                         originalRequest._retryCount = retryCount
 
                         const delay = this.config.retryDelay * Math.pow(2, retryCount - 1)
@@ -159,6 +158,8 @@ export class ApiService {
     }
 
     private shouldRetry(error: AxiosError): boolean {
+        const method = error.config?.method?.toUpperCase()
+        if (method !== 'GET' && method !== 'HEAD') return false
         if (!error.response) return true
         const status = error.response.status
         return status >= 500 || status === 408 || status === 429
