@@ -185,7 +185,7 @@ const handleViewAllClick = () => {
 const formatNotificationTime = (iso: string): string => {
   return formatRelativeTime(iso, {
     locale: locale.value,
-    t: (key, params) => t(key, params),
+    t: (key, params) => (params ? t(key, params) : t(key)),
   })
 }
 
