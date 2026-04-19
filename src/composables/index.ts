@@ -7,3 +7,4 @@ export * from './useFormatDate';
 export * from './useModal';
 export * from './useSidebar';
 export * from './useNumberInputFormatter';
+export * from './useNotificationHub';

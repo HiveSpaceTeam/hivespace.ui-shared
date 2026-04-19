@@ -14,3 +14,6 @@ export * from './component.common'
 export type { AppUser } from './app-user'
 export { toAppUser } from './app-user'
 export * from './api.types'
+
+// Notification types
+export * from './notification.types'

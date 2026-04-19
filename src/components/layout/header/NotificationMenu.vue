@@ -3,60 +3,72 @@
     <button
       class="relative flex items-center justify-center text-gray-500 transition-colors bg-white border border-gray-200 rounded-full hover:text-dark-900 h-11 w-11 hover:bg-gray-100 hover:text-gray-700 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
       @click="toggleDropdown">
-      <span :class="{ hidden: !notifying, flex: notifying }"
-        class="absolute right-0 top-0.5 z-1 h-2 w-2 rounded-full bg-orange-400">
+      <span v-if="notifying"
+        class="absolute -top-0.5 -right-0.5 z-10 flex h-4 w-4 items-center justify-center rounded-full bg-orange-400 text-[9px] font-bold text-white">
         <span class="absolute inline-flex w-full h-full bg-orange-400 rounded-full opacity-75 -z-1 animate-ping"></span>
+        <span class="relative z-10">{{ unreadCount > 99 ? '99+' : unreadCount }}</span>
       </span>
       <NotificationBellIcon />
     </button>
 
     <!-- Dropdown Start -->
+    <!-- Dropdown Start -->
     <div v-if="dropdownOpen"
-      class="absolute -right-[240px] mt-[17px] flex h-[480px] w-[350px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark sm:w-[361px] lg:right-0">
+      class="absolute -right-[240px] mt-[17px] flex w-[350px] flex-col rounded-2xl border border-gray-200 bg-white p-3 shadow-theme-lg dark:border-gray-800 dark:bg-gray-dark sm:w-[361px] lg:right-0">
       <div class="flex items-center justify-between pb-3 mb-3 border-b border-gray-100 dark:border-gray-800">
         <h5 class="text-lg font-semibold text-gray-800 dark:text-white/90">
           {{ $t('common.notifications.notification') }}
         </h5>
-
         <button @click="closeDropdown" class="text-gray-500 dark:text-gray-400">
           <CloseMenuIcon />
         </button>
       </div>
 
-      <ul class="flex flex-col h-auto overflow-y-auto custom-scrollbar">
-        <li v-for="notification in notifications" :key="notification.id" @click="handleItemClick">
-          <a class="flex gap-3 rounded-lg border-b border-gray-100 p-3 px-4.5 py-3 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-white/5"
-            href="#">
-            <span class="relative block w-full h-10 rounded-full z-1 max-w-10">
-              <img :src="notification.userImage" alt="User" class="overflow-hidden rounded-full" />
-              <span :class="notification.status === 'online' ? 'bg-success-500' : 'bg-error-500'"
-                class="absolute bottom-0 right-0 z-10 h-2.5 w-full max-w-2.5 rounded-full border-[1.5px] border-white dark:border-gray-900"></span>
+      <ul ref="listRef" class="flex flex-col overflow-y-auto custom-scrollbar space-y-1" :style="listStyle">
+        <li v-if="isLoading" class="flex justify-center py-6">
+          <Spinner size="sm" />
+        </li>
+
+        <li v-else-if="notifications.length === 0"
+          class="flex flex-col items-center justify-center py-8 text-gray-400 dark:text-gray-500">
+          <NotificationBellIcon class="w-10 h-10 mb-2 opacity-30" />
+          <span class="text-theme-sm">{{ $t('common.notifications.empty') }}</span>
+        </li>
+
+        <li v-else v-for="notification in notifications" :key="notification.id">
+          <a @click.prevent="handleItemClick(notification)" :class="[
+            'flex items-start gap-3 rounded-lg px-3 py-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-white/5',
+            !notification.isRead ? 'bg-brand-50/50 dark:bg-brand-900/10' : ''
+          ]" href="#">
+            <!-- Avatar -->
+            <div class="relative flex-shrink-0">
+              <img :src="notification.avatarUrl || defaultAvatar" alt="" class="h-11 w-11 rounded-full object-cover" />
+              <span
+                class="absolute -bottom-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-brand-500 border-2 border-white dark:border-gray-dark">
+                <NotificationBellIcon class="h-2.5 w-2.5 text-white" />
+              </span>
+            </div>
+
+            <!-- Content -->
+            <span class="flex-1 min-w-0">
+              <span class="block text-theme-sm text-gray-700 dark:text-gray-300 line-clamp-2 leading-snug">
+                {{ notification.message }}
+              </span>
+              <span
+                :class="['block text-theme-xs mt-1', !notification.isRead ? 'text-brand-500 font-medium' : 'text-gray-400 dark:text-gray-500']">
+                {{ formatRelativeTime(notification.createdAt) }}
+              </span>
             </span>
 
-            <span class="block">
-              <span class="mb-1.5 block text-theme-sm text-gray-500 dark:text-gray-400">
-                <span class="font-medium text-gray-800 dark:text-white/90">
-                  {{ notification.userName }}
-                </span>
-                {{ $t('common.notifications.requestsPermission') }}
-                <span class="font-medium text-gray-800 dark:text-white/90">
-                  {{ notification.project }}
-                </span>
-              </span>
-
-              <span class="flex items-center gap-2 text-gray-500 text-theme-xs dark:text-gray-400">
-                <span>{{ $t('common.notifications.project') }}</span>
-                <span class="w-1 h-1 bg-gray-400 rounded-full"></span>
-                <span>{{ notification.time }}</span>
-              </span>
-            </span>
+            <!-- Unread dot -->
+            <span v-if="!notification.isRead" class="mt-2 h-2.5 w-2.5 flex-shrink-0 rounded-full bg-brand-500" />
           </a>
         </li>
       </ul>
 
-      <router-link to="#"
+      <router-link :to="viewAllTo"
         class="mt-3 flex justify-center rounded-lg border border-gray-300 bg-white p-3 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200"
-        @click="handleViewAllClick">
+        @click.prevent="handleViewAllClick">
         {{ $t('common.notifications.viewAll') }}
       </router-link>
     </div>
@@ -64,134 +76,117 @@
   </div>
 </template>
 
-<script setup>
-import NotificationBellIcon from '../../../icons/NotificationBellIcon.vue';
-import CloseMenuIcon from '../../../icons/CloseMenuIcon.vue';
-import { ref, onMounted, onUnmounted } from 'vue';
-import { RouterLink } from 'vue-router';
+<script setup lang="ts">
+import NotificationBellIcon from '../../../icons/NotificationBellIcon.vue'
+import CloseMenuIcon from '../../../icons/CloseMenuIcon.vue'
+import Spinner from '../../common/Spinner.vue'
+import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
+import { RouterLink, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import type { InAppNotification } from '../../../types/notification.types'
 
-const dropdownOpen = ref(false);
-const notifying = ref(true);
-const dropdownRef = ref(null);
+const defaultAvatar =
+  `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='20' fill='%23e5e7eb'/%3E%3Ccircle cx='20' cy='15' r='7' fill='%239ca3af'/%3E%3Cellipse cx='20' cy='34' rx='12' ry='8' fill='%239ca3af'/%3E%3C/svg%3E`
 
-const notifications = ref([
+const props = withDefaults(
+  defineProps<{
+    notifications?: InAppNotification[]
+    unreadCount?: number
+    isLoading?: boolean
+    viewAllTo?: string
+  }>(),
   {
-    id: 1,
-    userName: 'Terry Franci',
-    userImage: '/images/user/user-02.jpg',
-    action: 'requests permission to change',
-    project: 'Project - Nganter App',
-    type: 'Project',
-    time: '5 min ago',
-    status: 'online',
+    notifications: () => [],
+    unreadCount: 0,
+    isLoading: false,
+    viewAllTo: '/notifications',
   },
-  {
-    id: 2,
-    userName: 'Terry Franci',
-    userImage: '/images/user/user-03.jpg',
-    action: 'requests permission to change',
-    project: 'Project - Nganter App',
-    type: 'Project',
-    time: '5 min ago',
-    status: 'offline',
-  },
-  {
-    id: 3,
-    userName: 'Terry Franci',
-    userImage: '/images/user/user-04.jpg',
-    action: 'requests permission to change',
-    project: 'Project - Nganter App',
-    type: 'Project',
-    time: '5 min ago',
-    status: 'online',
-  },
-  {
-    id: 4,
-    userName: 'Terry Franci',
-    userImage: '/images/user/user-05.jpg',
-    action: 'requests permission to change',
-    project: 'Project - Nganter App',
-    type: 'Project',
-    time: '5 min ago',
-    status: 'online',
-  },
-  {
-    id: 5,
-    userName: 'Terry Franci',
-    userImage: '/images/user/user-06.jpg',
-    action: 'requests permission to change',
-    project: 'Project - Nganter App',
-    type: 'Project',
-    time: '5 min ago',
-    status: 'offline',
-  },
-  {
-    id: 6,
-    userName: 'Terry Franci',
-    userImage: '/images/user/user-07.jpg',
-    action: 'requests permission to change',
-    project: 'Project - Nganter App',
-    type: 'Project',
-    time: '5 min ago',
-    status: 'online',
-  },
-  {
-    id: 7,
-    userName: 'Terry Franci',
-    userImage: '/images/user/user-08.jpg',
-    action: 'requests permission to change',
-    project: 'Project - Nganter App',
-    type: 'Project',
-    time: '5 min ago',
-    status: 'online',
-  },
-  {
-    id: 7,
-    userName: 'Terry Franci',
-    userImage: '/images/user/user-09.jpg',
-    action: 'requests permission to change',
-    project: 'Project - Nganter App',
-    type: 'Project',
-    time: '5 min ago',
-    status: 'online',
-  },
-  // Add more notifications here...
-]);
+)
+
+const emit = defineEmits<{
+  (e: 'notification-read', id: string): void
+  (e: 'notification-clicked', id: string): void
+  (e: 'view-all'): void
+  (e: 'open'): void
+}>()
+
+const { t } = useI18n()
+const router = useRouter()
+
+const dropdownOpen = ref(false)
+const dropdownRef = ref<HTMLElement | null>(null)
+const listRef = ref<HTMLUListElement | null>(null)
+const measuredMaxHeight = ref<number | null>(null)
+
+const notifying = computed(() => props.unreadCount > 0)
+
+const listStyle = computed(() => {
+  if (!measuredMaxHeight.value) return {}
+  return { maxHeight: `${measuredMaxHeight.value}px` }
+})
+
+const measureListHeight = () => {
+  if (!listRef.value || props.notifications.length === 0) {
+    measuredMaxHeight.value = null
+    return
+  }
+  const firstItem = listRef.value.querySelector('li') as HTMLElement | null
+  if (!firstItem) return
+  // gap from space-y-1 = 4px
+  measuredMaxHeight.value = firstItem.offsetHeight * 4 + 4 * 3
+}
+
+watch(
+  () => [dropdownOpen.value, props.notifications] as const,
+  () => { nextTick(measureListHeight) },
+  { flush: 'post' },
+)
 
 const toggleDropdown = () => {
-  dropdownOpen.value = !dropdownOpen.value;
-  notifying.value = false;
-};
+  dropdownOpen.value = !dropdownOpen.value
+  if (dropdownOpen.value) {
+    emit('open')
+  }
+}
 
 const closeDropdown = () => {
-  dropdownOpen.value = false;
-};
+  dropdownOpen.value = false
+}
 
-const handleClickOutside = (event) => {
-  if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
-    closeDropdown();
+const handleClickOutside = (event: MouseEvent) => {
+  if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
+    closeDropdown()
   }
-};
+}
 
-const handleItemClick = (event) => {
-  event.preventDefault();
-  // Handle the item click action here
-  console.log('Notification item clicked');
-  closeDropdown();
-};
+const handleItemClick = (notification: InAppNotification) => {
+  emit('notification-clicked', notification.id)
+  emit('notification-read', notification.id)
+  closeDropdown()
+  router.push(notification.link ?? props.viewAllTo)
+}
 
-const handleViewAllClick = (event) => {
-  event.preventDefault();
-  // Handle the "View All Notification" action here
-  console.log('View All Notifications clicked');
-  closeDropdown();
-};
+const handleViewAllClick = () => {
+  emit('view-all')
+  closeDropdown()
+}
+
+const formatRelativeTime = (iso: string): string => {
+  const date = new Date(iso)
+  const diff = Date.now() - date.getTime()
+  const minutes = Math.floor(diff / 60000)
+  if (minutes < 1) return t('common.notifications.justNow')
+  if (minutes < 60) return t('common.notifications.minutesAgo', { count: minutes })
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return t('common.notifications.hoursAgo', { count: hours })
+  return date.toLocaleDateString()
+}
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside);
-});
+  document.addEventListener('click', handleClickOutside)
+})
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside);
-});
+  document.removeEventListener('click', handleClickOutside)
+})
 </script>
