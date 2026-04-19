@@ -56,7 +56,7 @@
               </span>
               <span
                 :class="['block text-theme-xs mt-1', !notification.isRead ? 'text-brand-500 font-medium' : 'text-gray-400 dark:text-gray-500']">
-                {{ formatRelativeTime(notification.createdAt) }}
+                {{ formatNotificationTime(notification.createdAt) }}
               </span>
             </span>
 
@@ -77,13 +77,14 @@
 </template>
 
 <script setup lang="ts">
-import NotificationBellIcon from '../../../icons/NotificationBellIcon.vue'
-import CloseMenuIcon from '../../../icons/CloseMenuIcon.vue'
-import Spinner from '../../common/Spinner.vue'
+import NotificationBellIcon from '@/icons/NotificationBellIcon.vue'
+import CloseMenuIcon from '@/icons/CloseMenuIcon.vue'
+import Spinner from '@/components/common/Spinner.vue'
 import { ref, computed, watch, nextTick, onMounted, onUnmounted } from 'vue'
 import { RouterLink, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import type { InAppNotification } from '../../../types/notification.types'
+import type { InAppNotification } from '@/types/notification.types'
+import { useFormatDate } from '@/composables/useFormatDate'
 
 const defaultAvatar =
   `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='20' fill='%23e5e7eb'/%3E%3Ccircle cx='20' cy='15' r='7' fill='%239ca3af'/%3E%3Cellipse cx='20' cy='34' rx='12' ry='8' fill='%239ca3af'/%3E%3C/svg%3E`
@@ -110,8 +111,9 @@ const emit = defineEmits<{
   (e: 'open'): void
 }>()
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const router = useRouter()
+const { formatRelativeTime } = useFormatDate()
 
 const dropdownOpen = ref(false)
 const dropdownRef = ref<HTMLElement | null>(null)
@@ -180,15 +182,11 @@ const handleViewAllClick = () => {
   navigateTo(props.viewAllTo)
 }
 
-const formatRelativeTime = (iso: string): string => {
-  const date = new Date(iso)
-  const diff = Date.now() - date.getTime()
-  const minutes = Math.floor(diff / 60000)
-  if (minutes < 1) return t('common.notifications.justNow')
-  if (minutes < 60) return t('common.notifications.minutesAgo', { count: minutes })
-  const hours = Math.floor(minutes / 60)
-  if (hours < 24) return t('common.notifications.hoursAgo', { count: hours })
-  return date.toLocaleDateString()
+const formatNotificationTime = (iso: string): string => {
+  return formatRelativeTime(iso, {
+    locale: locale.value,
+    t: (key, params) => t(key, params),
+  })
 }
 
 onMounted(() => {

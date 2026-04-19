@@ -19,5 +19,42 @@ export function useFormatDate() {
       return '-'
     }
   }
-  return { formatDate }
+
+  const formatRelativeTime = (
+    iso?: string | null,
+    options?: {
+      locale?: string
+      t?: (key: string, params?: Record<string, number>) => string
+    },
+  ): string => {
+    if (!iso) return '-'
+
+    const date = new Date(iso)
+    if (Number.isNaN(date.getTime())) return '-'
+
+    const diff = Date.now() - date.getTime()
+    const minutes = Math.floor(diff / 60000)
+    const translator = options?.t
+
+    if (minutes < 1) {
+      return translator ? translator('common.notifications.justNow') : 'just now'
+    }
+
+    if (minutes < 60) {
+      return translator
+        ? translator('common.notifications.minutesAgo', { count: minutes })
+        : `${minutes} minute${minutes === 1 ? '' : 's'} ago`
+    }
+
+    const hours = Math.floor(minutes / 60)
+    if (hours < 24) {
+      return translator
+        ? translator('common.notifications.hoursAgo', { count: hours })
+        : `${hours} hour${hours === 1 ? '' : 's'} ago`
+    }
+
+    return new Intl.DateTimeFormat(options?.locale).format(date)
+  }
+
+  return { formatDate, formatRelativeTime }
 }
