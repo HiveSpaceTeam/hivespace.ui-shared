@@ -137,7 +137,7 @@ const measureListHeight = () => {
 }
 
 watch(
-  () => [dropdownOpen.value, props.notifications] as const,
+  () => [dropdownOpen.value, props.notifications.length] as const,
   () => { nextTick(measureListHeight) },
   { flush: 'post' },
 )
@@ -159,16 +159,25 @@ const handleClickOutside = (event: MouseEvent) => {
   }
 }
 
+const navigateTo = (target: string) => {
+  if (/^https?:\/\//i.test(target)) {
+    window.location.assign(target)
+    return
+  }
+  router.push(target)
+}
+
 const handleItemClick = (notification: InAppNotification) => {
   emit('notification-clicked', notification.id)
   emit('notification-read', notification.id)
   closeDropdown()
-  router.push(notification.link ?? props.viewAllTo)
+  navigateTo(notification.link ?? props.viewAllTo)
 }
 
 const handleViewAllClick = () => {
   emit('view-all')
   closeDropdown()
+  navigateTo(props.viewAllTo)
 }
 
 const formatRelativeTime = (iso: string): string => {
