@@ -18,7 +18,11 @@ export interface NotificationStoreOptions {
 
 const parsePayload = (raw: string): Record<string, unknown> => {
   try {
-    return JSON.parse(raw)
+    const parsed = JSON.parse(raw)
+    if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return {}
+    const proto = Object.getPrototypeOf(parsed)
+    if (proto !== Object.prototype && proto !== null) return {}
+    return parsed as Record<string, unknown>
   } catch {
     return {}
   }
@@ -95,18 +99,23 @@ export const createNotificationStore = (options: NotificationStoreOptions) => {
 
     const loadMore = async () => {
       if (page.value >= totalPages.value) return
-      page.value += 1
       isLoading.value = true
+      const nextPage = page.value + 1
       try {
-        const result = await service.getNotifications(page.value, pageSize)
+        const result = await service.getNotifications(nextPage, pageSize)
         notifications.value.push(...result.items.map(fromApi))
         total.value = result.total
+        page.value = nextPage
       } finally {
         isLoading.value = false
       }
     }
 
     const prependFromHub = (event: NotificationHubEvent) => {
+      if (notifications.value.some((item) => item.id === event.id)
+        || toastQueue.value.some((item) => item.id === event.id)) {
+        return
+      }
       const n = toViewModel(
         event.id, event.eventType, event.payload,
         false, event.createdAt, resolveLink, resolveMessage,

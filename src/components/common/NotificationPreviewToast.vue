@@ -1,11 +1,14 @@
 <template>
   <Teleport to="body">
-    <div class="fixed bottom-4 right-4 z-[9999] flex flex-col gap-3 items-end pointer-events-none"
-      style="max-width: 360px; width: 100%" aria-live="polite">
+    <div class="fixed bottom-4 left-4 right-4 sm:left-auto sm:w-[360px] z-[9999] flex flex-col gap-3 items-end pointer-events-none"
+      aria-live="polite">
       <TransitionGroup name="toast-slide" tag="div" class="flex flex-col gap-3 items-end w-full">
         <div v-for="toast in toasts" :key="toast.id"
           class="pointer-events-auto w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg px-4 py-3 flex items-start gap-3 cursor-pointer"
-          @click="$emit('click', toast.id)">
+          role="button" tabindex="0"
+          @click="$emit('click', toast.id)"
+          @keydown.enter.prevent="$emit('click', toast.id)"
+          @keydown.space.prevent="$emit('click', toast.id)">
           <!-- Avatar -->
           <div class="relative flex-shrink-0">
             <img :src="toast.avatarUrl || defaultAvatar" alt=""

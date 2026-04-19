@@ -1,4 +1,4 @@
-import { ref, onUnmounted } from 'vue'
+import { ref, onUnmounted, watch } from 'vue'
 import * as signalR from '@microsoft/signalr'
 import { useAuth } from './useAuth'
 import type { NotificationHubEvent } from '../types/notification.types'
@@ -33,7 +33,13 @@ export function useNotificationHub(
 
     connection = new signalR.HubConnectionBuilder()
       .withUrl(hubUrl, {
-        accessTokenFactory: () => currentUser.value?.access_token ?? '',
+        accessTokenFactory: () => {
+          const token = currentUser.value?.access_token
+          if (!token) {
+            throw new Error('Missing access token')
+          }
+          return token
+        },
       })
       .withAutomaticReconnect([0, 5000, 20000])
       .configureLogging(signalR.LogLevel.Warning)
@@ -65,12 +71,25 @@ export function useNotificationHub(
   }
 
   const disconnect = async () => {
-    if (connection) {
+    if (!connection) return
+    try {
       await connection.stop()
+    } catch (err) {
+      console.warn('[NotificationHub] Disconnect failed:', err)
+    } finally {
       connection = null
       connectionStatus.value = 'disconnected'
     }
   }
+
+  watch(
+    () => currentUser.value?.access_token,
+    (token) => {
+      if (!token && connection) {
+        void disconnect()
+      }
+    },
+  )
 
   onUnmounted(disconnect)
 
