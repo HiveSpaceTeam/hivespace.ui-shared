@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(gh pr create --title 'feat: add Spinner component and fix retry logic for safe HTTP methods' --body ':)')",
+      "Bash(npm ci *)",
+      "Bash(tasklist)"
+    ]
+  }
+}
