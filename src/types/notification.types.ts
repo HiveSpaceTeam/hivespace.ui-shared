@@ -9,7 +9,7 @@ export enum NotificationChannel {
 }
 
 /** Raw shape from GET /api/v1/notifications */
-export interface NotificationApi {
+export interface NotificationDto {
   id: string
   channel: NotificationChannel
   eventType: string
@@ -20,10 +20,8 @@ export interface NotificationApi {
 }
 
 export interface NotificationListResponse {
-  items: NotificationApi[]
-  total: number
-  page: number
-  pageSize: number
+  notifications: NotificationDto[]
+  hasMore: boolean
 }
 
 /** SignalR push event from ReceiveNotification */
@@ -35,7 +33,7 @@ export interface NotificationHubEvent {
 }
 
 export interface INotificationService {
-  getNotifications(page: number, pageSize: number): Promise<NotificationListResponse>
+  getNotifications(page: number, pageSize: number, unreadOnly?: boolean): Promise<NotificationListResponse>
   getUnreadCount(): Promise<number>
   markAsRead(id: string): Promise<void>
 }

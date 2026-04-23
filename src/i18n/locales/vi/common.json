@@ -38,6 +38,7 @@
     "justNow": "Vừa xong",
     "minutesAgo": "{count} phút trước",
     "hoursAgo": "{count} giờ trước",
-    "close": "Đóng thông báo"
+    "close": "Đóng thông báo",
+    "loadMore": "Xem thông báo trước đó"
   }
 }

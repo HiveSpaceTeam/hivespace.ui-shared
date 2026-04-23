@@ -1,12 +1,28 @@
-import { ref, computed } from 'vue'
+import { ref, type Ref } from 'vue'
 import { defineStore } from 'pinia'
 import { NotificationStatus } from '../types/notification.types'
 import type {
   INotificationService,
   InAppNotification,
-  NotificationApi,
+  NotificationDto,
   NotificationHubEvent,
 } from '../types/notification.types'
+
+export interface NotificationStoreReturn {
+  notifications: Ref<InAppNotification[]>
+  unreadCount: Ref<number>
+  hasMore: Ref<boolean>
+  page: Ref<number>
+  pageSize: number
+  isLoading: Ref<boolean>
+  toastQueue: Ref<InAppNotification[]>
+  fetchNotifications: (unreadOnly?: boolean) => Promise<void>
+  fetchUnreadCount: () => Promise<void>
+  markAsRead: (id: string) => Promise<void>
+  loadMore: () => Promise<void>
+  prependFromHub: (event: NotificationHubEvent) => void
+  dismissToast: (id: string) => void
+}
 
 export interface NotificationStoreOptions {
   service: INotificationService
@@ -52,29 +68,30 @@ const toViewModel = (
 export const createNotificationStore = (options: NotificationStoreOptions) => {
   const { service, resolveLink, resolveMessage, pageSize = 20 } = options
 
-  return defineStore('notification', () => {
+  return defineStore('notification', (): NotificationStoreReturn => {
     const notifications = ref<InAppNotification[]>([])
     const unreadCount = ref(0)
-    const total = ref(0)
+    const hasMore = ref(false)
     const page = ref(1)
     const isLoading = ref(false)
     const toastQueue = ref<InAppNotification[]>([])
+    const currentUnreadOnly = ref(false)
 
-    const totalPages = computed(() => Math.max(1, Math.ceil(total.value / pageSize)))
-
-    const fromApi = (api: NotificationApi): InAppNotification =>
+    const fromApi = (api: NotificationDto): InAppNotification =>
       toViewModel(
         api.id, api.eventType, api.payload,
         api.status === NotificationStatus.Read,
         api.createdAt, resolveLink, resolveMessage,
       )
 
-    const fetchNotifications = async () => {
+    const fetchNotifications = async (unreadOnly = false) => {
+      currentUnreadOnly.value = unreadOnly
+      page.value = 1
       isLoading.value = true
       try {
-        const result = await service.getNotifications(page.value, pageSize)
-        notifications.value = result.items.map(fromApi)
-        total.value = result.total
+        const result = await service.getNotifications(1, pageSize, unreadOnly)
+        notifications.value = result.notifications.map(fromApi)
+        hasMore.value = result.hasMore
       } finally {
         isLoading.value = false
       }
@@ -98,13 +115,13 @@ export const createNotificationStore = (options: NotificationStoreOptions) => {
     }
 
     const loadMore = async () => {
-      if (page.value >= totalPages.value) return
+      if (!hasMore.value) return
       isLoading.value = true
       const nextPage = page.value + 1
       try {
-        const result = await service.getNotifications(nextPage, pageSize)
-        notifications.value.push(...result.items.map(fromApi))
-        total.value = result.total
+        const result = await service.getNotifications(nextPage, pageSize, currentUnreadOnly.value)
+        notifications.value.push(...result.notifications.map(fromApi))
+        hasMore.value = result.hasMore
         page.value = nextPage
       } finally {
         isLoading.value = false
@@ -132,11 +149,10 @@ export const createNotificationStore = (options: NotificationStoreOptions) => {
     return {
       notifications,
       unreadCount,
-      total,
+      hasMore,
       page,
       pageSize,
       isLoading,
-      totalPages,
       toastQueue,
       fetchNotifications,
       fetchUnreadCount,
