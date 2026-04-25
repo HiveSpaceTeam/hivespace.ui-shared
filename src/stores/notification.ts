@@ -1,5 +1,5 @@
 import { ref, type Ref } from 'vue'
-import { defineStore } from 'pinia'
+import { defineStore, type StoreDefinition } from 'pinia'
 import { NotificationStatus } from '../types/notification.types'
 import type {
   INotificationService,
@@ -23,6 +23,28 @@ export interface NotificationStoreReturn {
   prependFromHub: (event: NotificationHubEvent) => void
   dismissToast: (id: string) => void
 }
+
+export interface NotificationStoreState {
+  notifications: InAppNotification[]
+  unreadCount: number
+  hasMore: boolean
+  page: number
+  pageSize: number
+  isLoading: boolean
+  toastQueue: InAppNotification[]
+}
+
+export type NotificationStoreActions = Pick<
+  NotificationStoreReturn,
+  'fetchNotifications' | 'fetchUnreadCount' | 'markAsRead' | 'loadMore' | 'prependFromHub' | 'dismissToast'
+>
+
+export type NotificationStoreDefinition = StoreDefinition<
+  'notification',
+  NotificationStoreState,
+  Record<never, never>,
+  NotificationStoreActions
+>
 
 export interface NotificationStoreOptions {
   service: INotificationService
@@ -65,10 +87,10 @@ const toViewModel = (
   }
 }
 
-export const createNotificationStore = (options: NotificationStoreOptions) => {
+export const createNotificationStore = (options: NotificationStoreOptions): NotificationStoreDefinition => {
   const { service, resolveLink, resolveMessage, pageSize = 20 } = options
 
-  return defineStore('notification', (): NotificationStoreReturn => {
+  return defineStore('notification', () => {
     const notifications = ref<InAppNotification[]>([])
     const unreadCount = ref(0)
     const hasMore = ref(false)
@@ -161,5 +183,5 @@ export const createNotificationStore = (options: NotificationStoreOptions) => {
       prependFromHub,
       dismissToast,
     }
-  })
+  }) as unknown as NotificationStoreDefinition
 }

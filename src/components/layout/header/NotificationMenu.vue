@@ -35,7 +35,7 @@
       </div>
 
       <ul ref="listRef" class="flex flex-col overflow-y-auto custom-scrollbar space-y-1" :style="listStyle">
-        <li v-if="isLoading" class="flex justify-center py-6">
+        <li v-if="isLoading && notifications.length === 0" class="flex justify-center py-6">
           <Spinner size="sm" />
         </li>
 
@@ -76,10 +76,23 @@
         </li>
       </ul>
 
-      <button v-if="hasMore && !isLoading" @click="$emit('load-more')"
-        class="mt-3 flex w-full justify-center rounded-lg border border-gray-300 bg-white p-3 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
-        {{ $t('common.notifications.loadMore') }}
-      </button>
+      <div v-if="hasMore" class="mt-3">
+        <button
+          v-if="!isLoading"
+          @click="handleLoadMore"
+          class="flex w-full justify-center rounded-lg border border-gray-300 bg-white p-3 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200"
+        >
+          {{ $t('common.notifications.loadMore') }}
+        </button>
+
+        <div
+          v-else-if="notifications.length > 0"
+          class="flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white p-3 text-theme-sm font-medium text-gray-700 shadow-theme-xs dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400"
+        >
+          <Spinner size="sm" />
+          {{ $t('common.notifications.loading') }}
+        </div>
+      </div>
     </div>
     <!-- Dropdown End -->
   </div>
@@ -134,6 +147,7 @@ const dropdownRef = ref<HTMLElement | null>(null)
 const listRef = ref<HTMLUListElement | null>(null)
 const measuredMaxHeight = ref<number | null>(null)
 const filterValue = ref<'all' | 'unread'>('all')
+const pointerStartedInside = ref(false)
 
 const notifying = computed(() => props.unreadCount > 0)
 
@@ -179,10 +193,23 @@ const closeDropdown = () => {
   dropdownOpen.value = false
 }
 
+const handlePointerDown = (event: PointerEvent | MouseEvent) => {
+  pointerStartedInside.value = !!dropdownRef.value?.contains(event.target as Node)
+}
+
 const handleClickOutside = (event: MouseEvent) => {
+  if (pointerStartedInside.value) {
+    pointerStartedInside.value = false
+    return
+  }
   if (dropdownRef.value && !dropdownRef.value.contains(event.target as Node)) {
     closeDropdown()
   }
+}
+
+const handleLoadMore = (event: MouseEvent) => {
+  event.stopPropagation()
+  emit('load-more')
 }
 
 const navigateTo = (target: string) => {
@@ -214,10 +241,12 @@ const formatNotificationTime = (iso: string): string => {
 }
 
 onMounted(() => {
+  document.addEventListener('pointerdown', handlePointerDown, true)
   document.addEventListener('click', handleClickOutside)
 })
 
 onUnmounted(() => {
+  document.removeEventListener('pointerdown', handlePointerDown, true)
   document.removeEventListener('click', handleClickOutside)
 })
 </script>
