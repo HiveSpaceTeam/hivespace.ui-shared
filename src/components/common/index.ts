@@ -38,3 +38,5 @@ export { default as FullscreenLoader } from './FullscreenLoader.vue';
 export { default as FilterChips } from './FilterChips.vue';
 export { default as Spinner } from './Spinner.vue';
 export { default as NotificationPreviewToast } from './NotificationPreviewToast.vue';
+export { default as OrderTimeline } from './OrderTimeline.vue';
+export type { TimelineStep } from './OrderTimeline.types';
